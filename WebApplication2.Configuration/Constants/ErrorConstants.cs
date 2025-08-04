@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebApplication2.Configuration.Constansts;
+using WebApplication2.Configuration.Constants;
 
 
 
-namespace WebApplication2.Configuration.Constansts
+namespace WebApplication2.Configuration.Constants
 {
     public static class ErrorConstants
     {

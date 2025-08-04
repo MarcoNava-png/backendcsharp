@@ -18,4 +18,3 @@ namespace WebApplication2.Core.Profiles
         }
     }
 }
-}

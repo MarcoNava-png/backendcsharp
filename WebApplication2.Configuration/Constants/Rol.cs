@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebApplication2.Configuration.Constansts
+namespace WebApplication2.Configuration.Constants
 {
     public class Rol
     {

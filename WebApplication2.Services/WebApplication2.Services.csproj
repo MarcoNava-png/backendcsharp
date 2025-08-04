@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WebApplication2.Configuration\WebApplication2.Configuration.csproj" />
     <ProjectReference Include="..\WebApplication2.Core\WebApplication2.Core.csproj" />
     <ProjectReference Include="..\WebApplication2.Data\WebApplication2.Data.csproj" />
   </ItemGroup>
