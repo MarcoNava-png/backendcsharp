@@ -4,7 +4,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using WebApplication2.Configuration.Mapping;
+using WebApplication2.Core.Models;
 using WebApplication2.Data.DbContexts;
+using WebApplication2.Services;
+using WebApplication2.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 var key = builder.Configuration["Jwt:Key"];
@@ -34,6 +38,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
+builder.Services.AddAutoMapper(builder => builder.AddProfiles(AutoMapperProfiles.GetProfiles()));
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -43,9 +48,20 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+{
+    options.Lockout.AllowedForNewUsers = true;
+    options.Password.RequiredLength = 8;
+    options.Password.RequireDigit = true;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.User.RequireUniqueEmail = true;
+})
+.AddEntityFrameworkStores<ApplicationDbContext>()
+.AddDefaultTokenProviders();
+
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 var app = builder.Build();

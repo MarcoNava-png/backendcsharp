@@ -1,11 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using WebApplication2.Core.Models;
 
 namespace WebApplication2.Data.DbContexts
 {
@@ -15,5 +11,7 @@ namespace WebApplication2.Data.DbContexts
         public ApplicationDbContext(DbContextOptions options) : base(options)
         {
         }
+
+        public DbSet<Persona> Personas { get; set; }
     }
 }

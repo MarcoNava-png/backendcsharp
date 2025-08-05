@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Core.DTOs;
 using WebApplication2.Core.Models;
@@ -18,6 +20,16 @@ namespace WebApplication2
         {
             _authService = authService;
             _mapper = mapper;
+        }
+
+        [HttpPost("signup")]
+        public async Task<IActionResult> Signup([FromBody] UserSignupRequest request)
+        {
+            var user = _mapper.Map<IdentityUser>(request);
+
+            await _authService.Signup(user, request.Password, request.Roles.Distinct().ToList());
+
+            return NoContent();
         }
 
         [HttpPost("login")]
