@@ -5,7 +5,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApplication2.Configuration.Mapping;
-using WebApplication2.Core.Models;
 using WebApplication2.Data.DbContexts;
 using WebApplication2.Services;
 using WebApplication2.Services.Interfaces;
@@ -36,8 +35,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
-
 builder.Services.AddAuthorization();
 
 builder.Services.AddAutoMapper(builder => builder.AddProfiles(AutoMapperProfiles.GetProfiles()));
@@ -65,19 +62,7 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 
 builder.Services.AddScoped<IAuthService, AuthService>();
 
-
 var app = builder.Build();
-
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    var userManager = services.GetRequiredService<UserManager<IdentityUser>>();
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-
-    await IdentitySeeder.SeedDataAsync(userManager, roleManager);
-}
-
-app.Run();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
