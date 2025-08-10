@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebApplication2.Configuration.Constants
+﻿namespace WebApplication2.Configuration.Constants
 {
     public class Rol
     {
-        public const string SUPERADMIN = "superadmin";
-        public const string MANAGER = "manager";
-        public const string MAESTRO = "maestro";
+        public const string ADMIN = "admin";
+        public const string DIRECTOR = "director";
+        public const string COORDINADOR = "coordinador";
+        public const string DOCENTE = "docente";
         public const string ALUMNO = "alumno";
+        public const string CONTROL_ESCOLAR = "controlescolar";
     }
 }

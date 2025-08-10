@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApplication2.Configuration.Mapping;
 using WebApplication2.Data.DbContexts;
+using WebApplication2.Data.Seed;
 using WebApplication2.Services;
 using WebApplication2.Services.Interfaces;
 
@@ -63,6 +64,8 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
+
+app.Services.InsertInitialData();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
