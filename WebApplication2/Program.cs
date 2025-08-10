@@ -64,6 +64,15 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var sp = scope.ServiceProvider;
+    var userManager = sp.GetRequiredService<UserManager<IdentityUser>>();
+    var roleManager = sp.GetRequiredService<RoleManager<IdentityRole>>();
+    await WebApplication2.Data.Seed.IdentitySeeder.SeedDataAsync(userManager, roleManager);
+}
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
