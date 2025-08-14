@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApplication2.Configuration.Mapping;
 using WebApplication2.Data.DbContexts;
+using WebApplication2.Data.Seed;
 using WebApplication2.Services;
 using WebApplication2.Services.Interfaces;
 
@@ -64,14 +65,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var sp = scope.ServiceProvider;
-    var userManager = sp.GetRequiredService<UserManager<IdentityUser>>();
-    var roleManager = sp.GetRequiredService<RoleManager<IdentityRole>>();
-    await WebApplication2.Data.Seed.IdentitySeeder.SeedDataAsync(userManager, roleManager);
-}
-
+app.Services.InsertInitialData();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
