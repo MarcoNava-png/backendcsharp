@@ -44,7 +44,15 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddCors(o =>
+{
+    o.AddPolicy("frontend", p => p
+        .WithOrigins("http://localhost:3000") // tu Next.js
+        .AllowAnyHeader()                     // incluye Authorization, Content-Type, etc.
+        .AllowAnyMethod()                     // GET/POST/PUT/DELETE/OPTIONS
+        //.AllowCredentials()                  
+    );
+});
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -75,6 +83,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("frontend");
 app.UseAuthentication();
 
 app.UseAuthorization();
