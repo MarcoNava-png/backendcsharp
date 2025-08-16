@@ -30,7 +30,7 @@ namespace WebApplication2.Controllers
             return Ok(profesores);
         }
 
-        [HttpPost("profesor")]
+        [HttpPost]
         public async Task<IActionResult> Profesor([FromBody] ProfesorSignupRequest request)
         {
             var user = new IdentityUser
