@@ -2,9 +2,11 @@
 {
     public class Profesor
     {
-        public int Id { get; set; }
-        public string Especialidad { get; set; }
-        // Agregar id estatus
-        public Persona Persona { get; set; }
+        public int Id { get; set; } 
+        public Guid PersonaId { get; set; }         
+        public Persona Persona { get; set; } = default!;
+        public string? Especialidad { get; set; }
+        public int? DepartamentoId { get; set; }
+        public DateTime FechaAlta { get; set; } = DateTime.UtcNow;
     }
 }
