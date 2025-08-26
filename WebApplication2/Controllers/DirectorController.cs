@@ -6,31 +6,33 @@ using WebApplication2.Core.Models;
 using WebApplication2.Core.Requests.Auth;
 using WebApplication2.Services.Interfaces;
 
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 namespace WebApplication2.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/directores")]
     [ApiController]
-    public class ProfesorController : ControllerBase
+    public class DirectorController : ControllerBase
     {
-        private readonly IProfesorService _profesorService;
+        private readonly IDirectorService _directorService;
         private readonly IAuthService _authService;
 
-        public ProfesorController(IProfesorService profesorService, IAuthService authService)
+        public DirectorController(IDirectorService directorService, IAuthService authService)
         {
-            _profesorService = profesorService;
+            _directorService = directorService;
             _authService = authService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Profesor>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<ActionResult<PagedResult<Director>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var profesores = await _profesorService.GetProfesores(page, pageSize);
+            var directores = await _directorService.GetDirectores(page, pageSize);
 
-            return Ok(profesores);
+            return Ok(directores);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Profesor([FromBody] ProfesorSignupRequest request)
+        public async Task<ActionResult<Director>> Post([FromBody] DirectorSignupRequest request)
         {
             var user = new IdentityUser
             {
@@ -40,11 +42,10 @@ namespace WebApplication2.Controllers
 
             try
             {
-                var signupResponse = await _authService.Signup(user, request.Password, [Rol.DOCENTE]);
+                var signupResponse = await _authService.Signup(user, request.Password, [Rol.DIRECTOR]);
 
-                var newProfesor = new Profesor
+                var newDirector = new Director
                 {
-                    Especialidad = request.Especialidad,
                     Persona = new Persona
                     {
                         Nombre = request.Nombre,
@@ -56,9 +57,9 @@ namespace WebApplication2.Controllers
                     }
                 };
 
-                var profesor = await _profesorService.CrearProfesor(newProfesor);
+                var director = await _directorService.CrearDirector(newDirector);
 
-                return Ok(profesor);
+                return Ok(director);
             }
             catch (Exception ex)
             {
@@ -71,7 +72,7 @@ namespace WebApplication2.Controllers
         {
             try
             {
-                await _profesorService.EliminarProfesor(id);
+                await _directorService.EliminarDirector(id);
 
                 return NoContent();
             }

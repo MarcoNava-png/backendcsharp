@@ -98,6 +98,18 @@ namespace WebApplication2.Services
             await _userManager.ResetPasswordAsync(user, newPassword, token);
         }
 
+        public async Task DeleteUser(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                throw new Exception("Usuario no encontrado.");
+            }
+
+            await _userManager.DeleteAsync(user);
+        }
+
         private UserLoginInfoDto GetUserLoginToken(IdentityUser user, string role)
         {
             var claims = new List<Claim>

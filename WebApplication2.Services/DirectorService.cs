@@ -6,20 +6,20 @@ using WebApplication2.Services.Interfaces;
 
 namespace WebApplication2.Services
 {
-    public class ProfesorService : IProfesorService
+    public class DirectorService : IDirectorService
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public ProfesorService(ApplicationDbContext dbContext)
+        public DirectorService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<PagedResult<Profesor>> GetProfesores(int page, int pageSize)
+        public async Task<PagedResult<Director>> GetDirectores(int page, int pageSize)
         {
-            var totalItems = await _dbContext.Profesores.CountAsync();
+            var totalItems = await _dbContext.Directores.CountAsync();
 
-            var profesores = await _dbContext.Profesores
+            var directores = await _dbContext.Directores
                 .Include(d => d.Persona)
                 .Where(d => d.Persona.Estatus == StatusEnum.Activo)
                 .OrderBy(d => d.Persona.ApellidoPaterno)
@@ -27,41 +27,41 @@ namespace WebApplication2.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            return new PagedResult<Profesor>
+            return new PagedResult<Director>
             {
                 TotalItems = totalItems,
-                Items = profesores,
+                Items = directores,
                 PageNumber = page,
                 PageSize = pageSize
             };
         }
 
-        public async Task<Profesor> CrearProfesor(Profesor profesor)
+        public async Task<Director> CrearDirector(Director director)
         {
-            await _dbContext.AddAsync(profesor);
+            await _dbContext.Directores.AddAsync(director);
             await _dbContext.SaveChangesAsync();
 
-            return profesor;
+            return director;
         }
 
-        public async Task<Profesor> EliminarProfesor(int id)
+        public async Task<Director> EliminarDirector(int id)
         {
-            var profesor = await _dbContext.Profesores
+            var director = await _dbContext.Directores
                 .Include(d => d.Persona)
                 .SingleOrDefaultAsync(p => p.Id == id);
 
-            if (profesor == null)
+            if (director == null)
             {
                 throw new Exception("No existe persona con el id ingresado");
             }
 
-            profesor.Persona.Estatus = StatusEnum.Inactivo;
+            director.Persona.Estatus = StatusEnum.Inactivo;
 
-            _dbContext.Profesores.Update(profesor);
+            _dbContext.Directores.Update(director);
 
             await _dbContext.SaveChangesAsync();
 
-            return profesor;
+            return director;
         }
     }
 }

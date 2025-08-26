@@ -6,20 +6,20 @@ using WebApplication2.Services.Interfaces;
 
 namespace WebApplication2.Services
 {
-    public class ProfesorService : IProfesorService
+    public class CoordinadorService : ICoordinadorService
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public ProfesorService(ApplicationDbContext dbContext)
+        public CoordinadorService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<PagedResult<Profesor>> GetProfesores(int page, int pageSize)
+        public async Task<PagedResult<Coordinador>> GetCoordinadores(int page, int pageSize)
         {
-            var totalItems = await _dbContext.Profesores.CountAsync();
+            var totalItems = await _dbContext.Coordinadores.CountAsync();
 
-            var profesores = await _dbContext.Profesores
+            var coordinadores = await _dbContext.Coordinadores
                 .Include(d => d.Persona)
                 .Where(d => d.Persona.Estatus == StatusEnum.Activo)
                 .OrderBy(d => d.Persona.ApellidoPaterno)
@@ -27,41 +27,41 @@ namespace WebApplication2.Services
                 .Take(pageSize)
                 .ToListAsync();
 
-            return new PagedResult<Profesor>
+            return new PagedResult<Coordinador>
             {
                 TotalItems = totalItems,
-                Items = profesores,
+                Items = coordinadores,
                 PageNumber = page,
                 PageSize = pageSize
             };
         }
 
-        public async Task<Profesor> CrearProfesor(Profesor profesor)
+        public async Task<Coordinador> CrearCoordinador(Coordinador coordinador)
         {
-            await _dbContext.AddAsync(profesor);
+            await _dbContext.Coordinadores.AddAsync(coordinador);
             await _dbContext.SaveChangesAsync();
 
-            return profesor;
+            return coordinador;
         }
 
-        public async Task<Profesor> EliminarProfesor(int id)
+        public async Task<Coordinador> EliminarCoordinador(int id)
         {
-            var profesor = await _dbContext.Profesores
+            var coordinador = await _dbContext.Coordinadores
                 .Include(d => d.Persona)
                 .SingleOrDefaultAsync(p => p.Id == id);
 
-            if (profesor == null)
+            if (coordinador == null)
             {
                 throw new Exception("No existe persona con el id ingresado");
             }
 
-            profesor.Persona.Estatus = StatusEnum.Inactivo;
+            coordinador.Persona.Estatus = StatusEnum.Inactivo;
 
-            _dbContext.Profesores.Update(profesor);
+            _dbContext.Coordinadores.Update(coordinador);
 
             await _dbContext.SaveChangesAsync();
 
-            return profesor;
+            return coordinador;
         }
     }
 }

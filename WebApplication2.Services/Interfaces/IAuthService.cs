@@ -10,5 +10,6 @@ namespace WebApplication2.Services.Interfaces
         Task<UserLoginInfoDto> Login(string username, string password);
         Task RequestPasswordReset(string email);
         Task ResetPassword(string email, string newPassword, string token);
+        Task DeleteUser(string email);
     }
 }

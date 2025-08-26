@@ -15,5 +15,10 @@ namespace WebApplication2.Data.DbContexts
         public DbSet<Persona> Personas { get; set; }
         public DbSet<PersonaGenero> PersonasGenero { get; set; }
         public DbSet<Profesor> Profesores { get; set; }
+        public DbSet<Director> Directores { get; set; }
+        public DbSet<Coordinador> Coordinadores { get; set; }
+        public DbSet<Departamento> Departamentos { get; set; }
+        public DbSet<Programa> Programas { get; set; }
+
     }
 }
