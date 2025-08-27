@@ -17,7 +17,9 @@ namespace WebApplication2.Services
 
         public async Task<PagedResult<Coordinador>> GetCoordinadores(int page, int pageSize)
         {
-            var totalItems = await _dbContext.Coordinadores.CountAsync();
+            var totalItems = await _dbContext.Coordinadores
+                .Where(d => d.Persona.Estatus == StatusEnum.Activo)
+                .CountAsync();
 
             var coordinadores = await _dbContext.Coordinadores
                 .Include(d => d.Persona)

@@ -17,7 +17,9 @@ namespace WebApplication2.Services
 
         public async Task<PagedResult<Profesor>> GetProfesores(int page, int pageSize)
         {
-            var totalItems = await _dbContext.Profesores.CountAsync();
+            var totalItems = await _dbContext.Profesores
+                .Where(d => d.Persona.Estatus == StatusEnum.Activo)
+                .CountAsync();
 
             var profesores = await _dbContext.Profesores
                 .Include(d => d.Persona)

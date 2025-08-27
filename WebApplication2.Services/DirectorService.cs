@@ -17,7 +17,9 @@ namespace WebApplication2.Services
 
         public async Task<PagedResult<Director>> GetDirectores(int page, int pageSize)
         {
-            var totalItems = await _dbContext.Directores.CountAsync();
+            var totalItems = await _dbContext.Directores
+                .Where(d => d.Persona.Estatus == StatusEnum.Activo)
+                .CountAsync();
 
             var directores = await _dbContext.Directores
                 .Include(d => d.Persona)
