@@ -53,6 +53,7 @@ namespace WebApplication2.Controllers
                         FechaNacimiento = request.FechaNacimiento,
                         PersonaGeneroId = request.PersonaGeneroId,
                         UserId = signupResponse.Id,
+                        Estatus = StatusEnum.Activo
                     }
                 };
 
