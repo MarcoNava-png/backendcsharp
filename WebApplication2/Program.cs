@@ -73,6 +73,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IProfesorService, ProfesorService>();
 builder.Services.AddScoped<IDirectorService, DirectorService>();
 builder.Services.AddScoped<ICoordinadorService, CoordinadorService>();
+builder.Services.AddScoped<IUbicacionService, UbicacionService>();
 
 var app = builder.Build();
 
