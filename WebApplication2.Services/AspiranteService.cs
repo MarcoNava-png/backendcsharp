@@ -6,65 +6,65 @@ using WebApplication2.Services.Interfaces;
 
 namespace WebApplication2.Services
 {
-    public class DirectorService : IDirectorService
+    public class AspiranteService : IAspiranteService
     {
         private readonly ApplicationDbContext _dbContext;
 
-        public DirectorService(ApplicationDbContext dbContext)
+        public AspiranteService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public async Task<PagedResult<Director>> GetDirectores(int page, int pageSize)
+        public async Task<PagedResult<Aspirante>> GetAspirantes(int page, int pageSize)
         {
-            var totalItems = await _dbContext.Directores
-                .Include(d => d.Persona)
+            var totalItems = await _dbContext.Aspirantes
                 .Where(d => d.Persona.Estatus == StatusEnum.Activo)
                 .CountAsync();
 
-            var directores = await _dbContext.Directores
+            var aspirantes = await _dbContext.Aspirantes
                 .Include(d => d.Persona)
+                .ThenInclude(p => p.Direccion)
                 .Where(d => d.Persona.Estatus == StatusEnum.Activo)
                 .OrderBy(d => d.Persona.ApellidoPaterno)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            return new PagedResult<Director>
+            return new PagedResult<Aspirante>
             {
                 TotalItems = totalItems,
-                Items = directores,
+                Items = aspirantes,
                 PageNumber = page,
                 PageSize = pageSize
             };
         }
 
-        public async Task<Director> CrearDirector(Director director)
+        public async Task<Aspirante> CrearAspirante(Aspirante aspirante)
         {
-            await _dbContext.Directores.AddAsync(director);
+            await _dbContext.Aspirantes.AddAsync(aspirante);
             await _dbContext.SaveChangesAsync();
 
-            return director;
+            return aspirante;
         }
 
-        public async Task<Director> EliminarDirector(int id)
+        public async Task<Aspirante> EliminarAspirante(int id)
         {
-            var director = await _dbContext.Directores
+            var aspirante = await _dbContext.Aspirantes
                 .Include(d => d.Persona)
                 .SingleOrDefaultAsync(p => p.Id == id);
 
-            if (director == null)
+            if (aspirante == null)
             {
                 throw new Exception("No existe persona con el id ingresado");
             }
 
-            director.Persona.Estatus = StatusEnum.Inactivo;
+            aspirante.Persona.Estatus = StatusEnum.Inactivo;
 
-            _dbContext.Directores.Update(director);
+            _dbContext.Aspirantes.Update(aspirante);
 
             await _dbContext.SaveChangesAsync();
 
-            return director;
+            return aspirante;
         }
     }
 }

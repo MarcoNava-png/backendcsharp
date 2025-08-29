@@ -5,9 +5,10 @@ namespace WebApplication2.Core.Models
 {
     public class Estudiante
     {
-        public int Id { get; set; }
-        public string Matricula { get; set; }
+        // Matricula
+        public string Id { get; set; }
         public Guid PersonaId { get; set; }
+        public Persona Persona { get; set; }
         public DateTime FechaIngreso { get; set; }
         public int NivelEducativoId { get; set; }
         public NivelEducativo NivelEducativo { get; set; }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication2.Data.DbContexts;
 
@@ -11,9 +12,11 @@ using WebApplication2.Data.DbContexts;
 namespace WebApplication2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250828195648_add_cursos_y_prerrequisitos_table")]
+    partial class add_cursos_y_prerrequisitos_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -220,65 +223,6 @@ namespace WebApplication2.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("WebApplication2.Core.Models.Aspirante", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Estatus")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaRegistro")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("PersonaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PersonaId");
-
-                    b.ToTable("Aspirantes");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.AspirantePrograma", b =>
-                {
-                    b.Property<int>("AspiranteId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProgramaId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("FechaPostulacion")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("AspiranteId", "ProgramaId");
-
-                    b.HasIndex("ProgramaId");
-
-                    b.ToTable("AspirantesProgramas");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.AspiranteProgramaEstatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Estatus")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AspirantesProgramasEstatus");
-                });
-
             modelBuilder.Entity("WebApplication2.Core.Models.Aula", b =>
                 {
                     b.Property<int>("Id")
@@ -297,49 +241,6 @@ namespace WebApplication2.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Aulas");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.Clase", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("CursoId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("GrupoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("HorarioDescripcion")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("HorarioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProfesorId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SeccionId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CursoId");
-
-                    b.HasIndex("GrupoId");
-
-                    b.HasIndex("HorarioId");
-
-                    b.HasIndex("ProfesorId");
-
-                    b.HasIndex("SeccionId");
-
-                    b.ToTable("Clases");
                 });
 
             modelBuilder.Entity("WebApplication2.Core.Models.CodigoPostal", b =>
@@ -426,32 +327,6 @@ namespace WebApplication2.Data.Migrations
                     b.ToTable("Departamentos");
                 });
 
-            modelBuilder.Entity("WebApplication2.Core.Models.Direccion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Calle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CodigoPostalId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Numero")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CodigoPostalId");
-
-                    b.ToTable("Direcciones");
-                });
-
             modelBuilder.Entity("WebApplication2.Core.Models.Director", b =>
                 {
                     b.Property<int>("Id")
@@ -486,125 +361,6 @@ namespace WebApplication2.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Estados");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.Estudiante", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("FechaIngreso")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("NivelEducativoId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("PersonaId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StatusAcademico")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NivelEducativoId");
-
-                    b.ToTable("Estudiantes");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.Grupo", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Periodicidad")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlanEstudiosId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Semestre")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PlanEstudiosId");
-
-                    b.ToTable("Grupos");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.HistorialAcademico", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<decimal>("CalificacionFinal")
-                        .HasPrecision(4, 2)
-                        .HasColumnType("decimal(4,2)");
-
-                    b.Property<int>("ClaseId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CursoId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("EstadoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("EstudianteId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Periodo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClaseId");
-
-                    b.HasIndex("CursoId");
-
-                    b.HasIndex("EstudianteId");
-
-                    b.ToTable("HistorialAcademico");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.Horario", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("AulaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DiaSemana")
-                        .HasColumnType("int");
-
-                    b.Property<string>("HoraFin")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HoraInicio")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Horarios");
                 });
 
             modelBuilder.Entity("WebApplication2.Core.Models.Municipio", b =>
@@ -662,9 +418,6 @@ namespace WebApplication2.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DireccionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Estatus")
                         .HasColumnType("int");
 
@@ -682,8 +435,6 @@ namespace WebApplication2.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DireccionId");
 
                     b.HasIndex("PersonaGeneroId");
 
@@ -810,43 +561,6 @@ namespace WebApplication2.Data.Migrations
                     b.ToTable("Programas");
                 });
 
-            modelBuilder.Entity("WebApplication2.Core.Models.Seccion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CupoMaximo")
-                        .HasColumnType("int");
-
-                    b.Property<string>("CursoId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("HorarioId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PlanEstudiosId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProfesorId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CursoId");
-
-                    b.HasIndex("HorarioId");
-
-                    b.HasIndex("PlanEstudiosId");
-
-                    b.HasIndex("ProfesorId");
-
-                    b.ToTable("Seccion");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -898,79 +612,6 @@ namespace WebApplication2.Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("WebApplication2.Core.Models.Aspirante", b =>
-                {
-                    b.HasOne("WebApplication2.Core.Models.Persona", "Persona")
-                        .WithMany()
-                        .HasForeignKey("PersonaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Persona");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.AspirantePrograma", b =>
-                {
-                    b.HasOne("WebApplication2.Core.Models.Aspirante", "Aspirante")
-                        .WithMany()
-                        .HasForeignKey("AspiranteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication2.Core.Models.Programa", "Programa")
-                        .WithMany()
-                        .HasForeignKey("ProgramaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Aspirante");
-
-                    b.Navigation("Programa");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.Clase", b =>
-                {
-                    b.HasOne("WebApplication2.Core.Models.Curso", "Curso")
-                        .WithMany()
-                        .HasForeignKey("CursoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication2.Core.Models.Grupo", "Grupo")
-                        .WithMany()
-                        .HasForeignKey("GrupoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication2.Core.Models.Horario", "Horario")
-                        .WithMany()
-                        .HasForeignKey("HorarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication2.Core.Models.Profesor", "Profesor")
-                        .WithMany()
-                        .HasForeignKey("ProfesorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication2.Core.Models.Seccion", "Seccion")
-                        .WithMany()
-                        .HasForeignKey("SeccionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Curso");
-
-                    b.Navigation("Grupo");
-
-                    b.Navigation("Horario");
-
-                    b.Navigation("Profesor");
-
-                    b.Navigation("Seccion");
-                });
-
             modelBuilder.Entity("WebApplication2.Core.Models.CodigoPostal", b =>
                 {
                     b.HasOne("WebApplication2.Core.Models.Municipio", "Municipio")
@@ -1004,17 +645,6 @@ namespace WebApplication2.Data.Migrations
                     b.Navigation("Departamento");
                 });
 
-            modelBuilder.Entity("WebApplication2.Core.Models.Direccion", b =>
-                {
-                    b.HasOne("WebApplication2.Core.Models.CodigoPostal", "CodigoPostal")
-                        .WithMany()
-                        .HasForeignKey("CodigoPostalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CodigoPostal");
-                });
-
             modelBuilder.Entity("WebApplication2.Core.Models.Director", b =>
                 {
                     b.HasOne("WebApplication2.Core.Models.Persona", "Persona")
@@ -1024,55 +654,6 @@ namespace WebApplication2.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Persona");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.Estudiante", b =>
-                {
-                    b.HasOne("WebApplication2.Core.Models.NivelEducativo", "NivelEducativo")
-                        .WithMany()
-                        .HasForeignKey("NivelEducativoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("NivelEducativo");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.Grupo", b =>
-                {
-                    b.HasOne("WebApplication2.Core.Models.PlanEstudios", "PlanEstudios")
-                        .WithMany()
-                        .HasForeignKey("PlanEstudiosId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PlanEstudios");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.HistorialAcademico", b =>
-                {
-                    b.HasOne("WebApplication2.Core.Models.Clase", "Clase")
-                        .WithMany()
-                        .HasForeignKey("ClaseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication2.Core.Models.Curso", "Curso")
-                        .WithMany()
-                        .HasForeignKey("CursoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication2.Core.Models.Estudiante", "Estudiante")
-                        .WithMany()
-                        .HasForeignKey("EstudianteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Clase");
-
-                    b.Navigation("Curso");
-
-                    b.Navigation("Estudiante");
                 });
 
             modelBuilder.Entity("WebApplication2.Core.Models.Municipio", b =>
@@ -1088,12 +669,6 @@ namespace WebApplication2.Data.Migrations
 
             modelBuilder.Entity("WebApplication2.Core.Models.Persona", b =>
                 {
-                    b.HasOne("WebApplication2.Core.Models.Direccion", "Direccion")
-                        .WithMany("Personas")
-                        .HasForeignKey("DireccionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebApplication2.Core.Models.PersonaGenero", "PersonaGenero")
                         .WithMany()
                         .HasForeignKey("PersonaGeneroId")
@@ -1103,8 +678,6 @@ namespace WebApplication2.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Direccion");
 
                     b.Navigation("PersonaGenero");
 
@@ -1163,51 +736,11 @@ namespace WebApplication2.Data.Migrations
                     b.Navigation("Departamento");
                 });
 
-            modelBuilder.Entity("WebApplication2.Core.Models.Seccion", b =>
-                {
-                    b.HasOne("WebApplication2.Core.Models.Curso", "Curso")
-                        .WithMany()
-                        .HasForeignKey("CursoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication2.Core.Models.Horario", "Horario")
-                        .WithMany()
-                        .HasForeignKey("HorarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication2.Core.Models.PlanEstudios", "PlanEstudios")
-                        .WithMany()
-                        .HasForeignKey("PlanEstudiosId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("WebApplication2.Core.Models.Profesor", "Profesor")
-                        .WithMany()
-                        .HasForeignKey("ProfesorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Curso");
-
-                    b.Navigation("Horario");
-
-                    b.Navigation("PlanEstudios");
-
-                    b.Navigation("Profesor");
-                });
-
             modelBuilder.Entity("WebApplication2.Core.Models.Curso", b =>
                 {
                     b.Navigation("EsPrerrequisitoDe");
 
                     b.Navigation("Prerrequisitos");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.Direccion", b =>
-                {
-                    b.Navigation("Personas");
                 });
 
             modelBuilder.Entity("WebApplication2.Core.Models.Estado", b =>

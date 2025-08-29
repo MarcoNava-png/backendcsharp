@@ -4,36 +4,33 @@ using WebApplication2.Configuration.Constants;
 using WebApplication2.Core.Common;
 using WebApplication2.Core.Models;
 using WebApplication2.Core.Requests.Auth;
-using WebApplication2.Services;
 using WebApplication2.Services.Interfaces;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApplication2.Controllers
 {
-    [Route("api/coordinadores")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class CoordinadorController : ControllerBase
+    public class AspiranteController : ControllerBase
     {
-        private readonly ICoordinadorService _coordinadorService;
+        private readonly IAspiranteService _aspiranteService;
         private readonly IAuthService _authService;
 
-        public CoordinadorController(ICoordinadorService coordinadorService, IAuthService authService)
+        public AspiranteController(IAspiranteService aspiranteService, IAuthService authService)
         {
-            _coordinadorService = coordinadorService;
+            _aspiranteService = aspiranteService;
             _authService = authService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Coordinador>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<ActionResult<PagedResult<Aspirante>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var coordinadores = await _coordinadorService.GetCoordinadores(page, pageSize);
+            var aspirantes = await _aspiranteService.GetAspirantes(page, pageSize);
 
-            return Ok(coordinadores);
+            return Ok(aspirantes);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Director>> Post([FromBody] CoordinadorSignupRequest request)
+        public async Task<ActionResult<Director>> Post([FromBody] DirectorSignupRequest request)
         {
             var user = new IdentityUser
             {
@@ -43,9 +40,9 @@ namespace WebApplication2.Controllers
 
             try
             {
-                var signupResponse = await _authService.Signup(user, request.Password, [Rol.COORDINADOR]);
+                var signupResponse = await _authService.Signup(user, request.Password, [Rol.ALUMNO]);
 
-                var newCoordinador = new Coordinador
+                var newAspirante = new Aspirante
                 {
                     Persona = new Persona
                     {
@@ -62,12 +59,14 @@ namespace WebApplication2.Controllers
                             Numero = request.Numero,
                             CodigoPostalId = request.CodigoPostalId,
                         }
-                    }
+                    },
+                    Estatus = Core.Enums.AspiranteStatusEnum.Registrado,
+                    FechaRegistro = DateTime.UtcNow
                 };
 
-                var coordinador = await _coordinadorService.CrearCoordinador(newCoordinador);
+                var aspirante = await _aspiranteService.CrearAspirante(newAspirante);
 
-                return Ok(coordinador);
+                return Ok(aspirante);
             }
             catch (Exception ex)
             {
@@ -80,7 +79,7 @@ namespace WebApplication2.Controllers
         {
             try
             {
-                await _coordinadorService.EliminarCoordinador(id);
+                await _aspiranteService.EliminarAspirante(id);
 
                 return NoContent();
             }

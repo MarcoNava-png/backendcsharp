@@ -1,6 +1,6 @@
 ﻿namespace WebApplication2.Core.Models
 {
-    public class AspirantesProgramas
+    public class AspirantePrograma
     {
         public int AspiranteId { get; set; }
         public int ProgramaId { get; set; }

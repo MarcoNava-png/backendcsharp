@@ -15,5 +15,7 @@ namespace WebApplication2.Core.Models
         public StatusEnum Estatus { get; set; }
         public PersonaGenero PersonaGenero { get; set; }
         public IdentityUser User { get; set; }
+        public int DireccionId { get; set; }
+        public Direccion Direccion { get; set; }
     }
 }

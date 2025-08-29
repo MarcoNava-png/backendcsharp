@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApplication2.Data.DbContexts;
 
@@ -11,9 +12,11 @@ using WebApplication2.Data.DbContexts;
 namespace WebApplication2.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250828212055_add_clase_and_historial_academico_tables")]
+    partial class add_clase_and_historial_academico_tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -426,32 +429,6 @@ namespace WebApplication2.Data.Migrations
                     b.ToTable("Departamentos");
                 });
 
-            modelBuilder.Entity("WebApplication2.Core.Models.Direccion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Calle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("CodigoPostalId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Numero")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CodigoPostalId");
-
-                    b.ToTable("Direcciones");
-                });
-
             modelBuilder.Entity("WebApplication2.Core.Models.Director", b =>
                 {
                     b.Property<int>("Id")
@@ -662,9 +639,6 @@ namespace WebApplication2.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DireccionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Estatus")
                         .HasColumnType("int");
 
@@ -682,8 +656,6 @@ namespace WebApplication2.Data.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DireccionId");
 
                     b.HasIndex("PersonaGeneroId");
 
@@ -1004,17 +976,6 @@ namespace WebApplication2.Data.Migrations
                     b.Navigation("Departamento");
                 });
 
-            modelBuilder.Entity("WebApplication2.Core.Models.Direccion", b =>
-                {
-                    b.HasOne("WebApplication2.Core.Models.CodigoPostal", "CodigoPostal")
-                        .WithMany()
-                        .HasForeignKey("CodigoPostalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("CodigoPostal");
-                });
-
             modelBuilder.Entity("WebApplication2.Core.Models.Director", b =>
                 {
                     b.HasOne("WebApplication2.Core.Models.Persona", "Persona")
@@ -1088,12 +1049,6 @@ namespace WebApplication2.Data.Migrations
 
             modelBuilder.Entity("WebApplication2.Core.Models.Persona", b =>
                 {
-                    b.HasOne("WebApplication2.Core.Models.Direccion", "Direccion")
-                        .WithMany("Personas")
-                        .HasForeignKey("DireccionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("WebApplication2.Core.Models.PersonaGenero", "PersonaGenero")
                         .WithMany()
                         .HasForeignKey("PersonaGeneroId")
@@ -1103,8 +1058,6 @@ namespace WebApplication2.Data.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
-
-                    b.Navigation("Direccion");
 
                     b.Navigation("PersonaGenero");
 
@@ -1203,11 +1156,6 @@ namespace WebApplication2.Data.Migrations
                     b.Navigation("EsPrerrequisitoDe");
 
                     b.Navigation("Prerrequisitos");
-                });
-
-            modelBuilder.Entity("WebApplication2.Core.Models.Direccion", b =>
-                {
-                    b.Navigation("Personas");
                 });
 
             modelBuilder.Entity("WebApplication2.Core.Models.Estado", b =>

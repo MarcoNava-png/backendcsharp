@@ -25,6 +25,17 @@ namespace WebApplication2.Data.DbContexts
         public DbSet<Estado> Estados { get; set; }
         public DbSet<Municipio> Municipios { get; set; }
         public DbSet<CodigoPostal> CodigosPostales { get; set; }
+        public DbSet<Grupo> Grupos { get; set; }
+        public DbSet<Curso> Cursos { get; set; }
+        public DbSet<Prerrequisito> Prerrequisitos { get; set; }
+        public DbSet<Horario> Horarios { get; set; }
+        public DbSet<Estudiante> Estudiantes { get; set; }
+        public DbSet<Aspirante> Aspirantes { get; set; }
+        public DbSet<AspirantePrograma> AspirantesProgramas { get; set; }
+        public DbSet<AspiranteProgramaEstatus> AspirantesProgramasEstatus { get; set; }
+        public DbSet<Clase> Clases { get; set; }
+        public DbSet<HistorialAcademico> HistorialAcademico { get; set; }
+        public DbSet<Direccion> Direcciones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -51,6 +62,28 @@ namespace WebApplication2.Data.DbContexts
             // Índice para búsquedas por MunicipioId
             modelBuilder.Entity<CodigoPostal>()
                 .HasIndex(cp => cp.MunicipioId);
+
+            modelBuilder.Entity<Prerrequisito>()
+                .HasKey(p => new { p.CursoId, p.PrerrequisitoId });
+
+            modelBuilder.Entity<Prerrequisito>()
+                .HasOne(p => p.Curso)
+                .WithMany(c => c.Prerrequisitos)
+                .HasForeignKey(p => p.CursoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Prerrequisito>()
+                .HasOne(p => p.CursoPrerrequisito)
+                .WithMany(c => c.EsPrerrequisitoDe)
+                .HasForeignKey(p => p.PrerrequisitoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<AspirantePrograma>()
+                .HasKey(p => new { p.AspiranteId, p.ProgramaId });
+
+            modelBuilder.Entity<HistorialAcademico>()
+                .Property(p => p.CalificacionFinal)
+                .HasPrecision(4, 2);
         }
     }
 }
