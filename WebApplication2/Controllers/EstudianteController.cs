@@ -11,12 +11,10 @@ namespace WebApplication2.Controllers
     public class EstudianteController : ControllerBase
     {
         private readonly IEstudianteService _estudianteService;
-        private readonly IAuthService _authService;
 
-        public EstudianteController(IEstudianteService estudianteService, IAuthService authService)
+        public EstudianteController(IEstudianteService estudianteService)
         {
             _estudianteService = estudianteService;
-            _authService = authService;
         }
 
         [HttpGet]
@@ -34,6 +32,7 @@ namespace WebApplication2.Controllers
             {
                 var newEstudiante = new Estudiante
                 {
+                    Id = request.Matricula,
                     PersonaId = request.PersonaId,
                     FechaIngreso = DateTime.UtcNow,
                     NivelEducativoId = request.NivelEducativoId,
