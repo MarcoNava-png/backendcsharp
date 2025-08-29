@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Configuration.Constants;
 using WebApplication2.Core.Common;
+using WebApplication2.Core.DTOs;
 using WebApplication2.Core.Models;
 using WebApplication2.Core.Requests.Auth;
-using WebApplication2.Services;
 using WebApplication2.Services.Interfaces;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApplication2.Controllers
 {
@@ -17,23 +16,35 @@ namespace WebApplication2.Controllers
     {
         private readonly ICoordinadorService _coordinadorService;
         private readonly IAuthService _authService;
+        private readonly IMapper _mapper;
 
-        public CoordinadorController(ICoordinadorService coordinadorService, IAuthService authService)
+        public CoordinadorController(ICoordinadorService coordinadorService, IAuthService authService, IMapper mapper)
         {
             _coordinadorService = coordinadorService;
             _authService = authService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Coordinador>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<ActionResult<PagedResult<CoordinadorDto>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var coordinadores = await _coordinadorService.GetCoordinadores(page, pageSize);
+            var pagination = await _coordinadorService.GetCoordinadores(page, pageSize);
 
-            return Ok(coordinadores);
+            var coordinadoresDto = _mapper.Map<IEnumerable<CoordinadorDto>>(pagination.Items);
+
+            var response = new PagedResult<CoordinadorDto>
+            {
+                TotalItems = pagination.TotalItems,
+                Items = [.. coordinadoresDto],
+                PageNumber = pagination.PageNumber,
+                PageSize = pagination.PageSize
+            };
+
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Director>> Post([FromBody] CoordinadorSignupRequest request)
+        public async Task<ActionResult<CoordinadorDto>> Post([FromBody] CoordinadorSignupRequest request)
         {
             var user = new IdentityUser
             {
@@ -67,7 +78,9 @@ namespace WebApplication2.Controllers
 
                 var coordinador = await _coordinadorService.CrearCoordinador(newCoordinador);
 
-                return Ok(coordinador);
+                var coordinadorDto = _mapper.Map<CoordinadorDto>(coordinador);
+
+                return Ok(coordinadorDto);
             }
             catch (Exception ex)
             {

@@ -9,7 +9,13 @@ namespace WebApplication2.Configuration.Mapping
         {
             return new List<Profile>
             {
-                new UserProfile()
+                new UserProfile(),
+                new AspiranteProfile(),
+                new PersonaProfile(),
+                new CoordinadorProfile(),
+                new DirectorProfile(),
+                new EstudianteProfile(),
+                new ProfesorProfile(),
             };
         }
     }

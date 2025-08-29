@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Configuration.Constants;
 using WebApplication2.Core.Common;
+using WebApplication2.Core.DTOs;
 using WebApplication2.Core.Models;
 using WebApplication2.Core.Requests.Auth;
 using WebApplication2.Services.Interfaces;
@@ -16,23 +18,35 @@ namespace WebApplication2.Controllers
     {
         private readonly IDirectorService _directorService;
         private readonly IAuthService _authService;
+        private readonly IMapper _mapper;
 
-        public DirectorController(IDirectorService directorService, IAuthService authService)
+        public DirectorController(IDirectorService directorService, IAuthService authService, IMapper mapper)
         {
             _directorService = directorService;
             _authService = authService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Director>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<ActionResult<PagedResult<DirectorDto>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var directores = await _directorService.GetDirectores(page, pageSize);
+            var pagination = await _directorService.GetDirectores(page, pageSize);
 
-            return Ok(directores);
+            var directoresDto = _mapper.Map<IEnumerable<DirectorDto>>(pagination.Items);
+
+            var response = new PagedResult<DirectorDto>
+            {
+                TotalItems = pagination.TotalItems,
+                Items = [.. directoresDto],
+                PageNumber = pagination.PageNumber,
+                PageSize = pagination.PageSize
+            };
+
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Director>> Post([FromBody] DirectorSignupRequest request)
+        public async Task<ActionResult<DirectorDto>> Post([FromBody] DirectorSignupRequest request)
         {
             var user = new IdentityUser
             {
@@ -66,7 +80,9 @@ namespace WebApplication2.Controllers
 
                 var director = await _directorService.CrearDirector(newDirector);
 
-                return Ok(director);
+                var directorDto = _mapper.Map<DirectorDto>(director);
+
+                return Ok(directorDto);
             }
             catch (Exception ex)
             {

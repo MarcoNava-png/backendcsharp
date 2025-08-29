@@ -23,7 +23,7 @@ namespace WebApplication2.Services
 
             var aspirantes = await _dbContext.Aspirantes
                 .Include(d => d.Persona)
-                .ThenInclude(p => p.Direccion)
+                .Include(d => d.Persona.PersonaGenero)
                 .Where(d => d.Persona.Estatus == StatusEnum.Activo)
                 .OrderBy(d => d.Persona.ApellidoPaterno)
                 .Skip((page - 1) * pageSize)

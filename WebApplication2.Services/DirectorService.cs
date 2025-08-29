@@ -24,6 +24,7 @@ namespace WebApplication2.Services
 
             var directores = await _dbContext.Directores
                 .Include(d => d.Persona)
+                .Include(d => d.Persona.PersonaGenero)
                 .Where(d => d.Persona.Estatus == StatusEnum.Activo)
                 .OrderBy(d => d.Persona.ApellidoPaterno)
                 .Skip((page - 1) * pageSize)

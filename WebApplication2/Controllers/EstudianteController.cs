@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Core.Common;
+using WebApplication2.Core.DTOs;
 using WebApplication2.Core.Models;
 using WebApplication2.Core.Requests.Estudiante;
 using WebApplication2.Services.Interfaces;
@@ -11,22 +13,34 @@ namespace WebApplication2.Controllers
     public class EstudianteController : ControllerBase
     {
         private readonly IEstudianteService _estudianteService;
+        private readonly IMapper _mapper;
 
-        public EstudianteController(IEstudianteService estudianteService)
+        public EstudianteController(IEstudianteService estudianteService, IMapper mapper)
         {
             _estudianteService = estudianteService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Estudiante>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<ActionResult<PagedResult<EstudianteDto>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var profesores = await _estudianteService.GetEstudiantes(page, pageSize);
+            var pagination = await _estudianteService.GetEstudiantes(page, pageSize);
 
-            return Ok(profesores);
+            var estudiantesDto = _mapper.Map<IEnumerable<EstudianteDto>>(pagination.Items);
+
+            var response = new PagedResult<EstudianteDto>
+            {
+                TotalItems = pagination.TotalItems,
+                Items = [.. estudiantesDto],
+                PageNumber = pagination.PageNumber,
+                PageSize = pagination.PageSize
+            };
+
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Estudiante([FromBody] EstudianteSignupRequest request)
+        public async Task<ActionResult<EstudianteDto>> Estudiante([FromBody] EstudianteSignupRequest request)
         {
             try
             {
@@ -40,9 +54,11 @@ namespace WebApplication2.Controllers
                     Status = StatusEnum.Activo
                 };
 
-                var profesor = await _estudianteService.CrearEstudiante(newEstudiante);
+                var estudiante = await _estudianteService.CrearEstudiante(newEstudiante);
 
-                return Ok(profesor);
+                var estudianteDto = _mapper.Map<EstudianteDto>(estudiante);
+
+                return Ok(estudiante);
             }
             catch (Exception ex)
             {

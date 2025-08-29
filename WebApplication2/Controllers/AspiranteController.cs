@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Configuration.Constants;
 using WebApplication2.Core.Common;
+using WebApplication2.Core.DTOs;
 using WebApplication2.Core.Models;
 using WebApplication2.Core.Requests.Auth;
 using WebApplication2.Services.Interfaces;
@@ -14,23 +16,35 @@ namespace WebApplication2.Controllers
     {
         private readonly IAspiranteService _aspiranteService;
         private readonly IAuthService _authService;
+        private readonly IMapper _mapper;
 
-        public AspiranteController(IAspiranteService aspiranteService, IAuthService authService)
+        public AspiranteController(IAspiranteService aspiranteService, IAuthService authService, IMapper mapper)
         {
             _aspiranteService = aspiranteService;
             _authService = authService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Aspirante>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<ActionResult<PagedResult<AspiranteDto>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var aspirantes = await _aspiranteService.GetAspirantes(page, pageSize);
+            var pagination = await _aspiranteService.GetAspirantes(page, pageSize);
 
-            return Ok(aspirantes);
+            var aspirantesDto = _mapper.Map<IEnumerable<AspiranteDto>>(pagination.Items);
+
+            var response = new PagedResult<AspiranteDto>
+            {
+                TotalItems = pagination.TotalItems,
+                Items = [.. aspirantesDto],
+                PageNumber = pagination.PageNumber,
+                PageSize = pagination.PageSize
+            };
+
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Director>> Post([FromBody] DirectorSignupRequest request)
+        public async Task<ActionResult<AspiranteDto>> Post([FromBody] DirectorSignupRequest request)
         {
             var user = new IdentityUser
             {
@@ -66,7 +80,9 @@ namespace WebApplication2.Controllers
 
                 var aspirante = await _aspiranteService.CrearAspirante(newAspirante);
 
-                return Ok(aspirante);
+                var aspiranteDto = _mapper.Map<AspiranteDto>(aspirante);
+
+                return Ok(aspiranteDto);
             }
             catch (Exception ex)
             {

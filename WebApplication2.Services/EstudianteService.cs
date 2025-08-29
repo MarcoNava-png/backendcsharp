@@ -24,6 +24,7 @@ namespace WebApplication2.Services
 
             var items = await _dbContext.Estudiantes
                 .Include(d => d.Persona)
+                .Include(e => e.NivelEducativo)
                 .Where(d => d.Persona.Estatus == StatusEnum.Activo)
                 .OrderBy(d => d.Persona.ApellidoPaterno)
                 .Skip((page - 1) * pageSize)

@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Configuration.Constants;
 using WebApplication2.Core.Common;
+using WebApplication2.Core.DTOs;
 using WebApplication2.Core.Models;
 using WebApplication2.Core.Requests.Auth;
 using WebApplication2.Services.Interfaces;
@@ -14,23 +16,35 @@ namespace WebApplication2.Controllers
     {
         private readonly IProfesorService _profesorService;
         private readonly IAuthService _authService;
+        private readonly IMapper _mapper;
 
-        public ProfesorController(IProfesorService profesorService, IAuthService authService)
+        public ProfesorController(IProfesorService profesorService, IAuthService authService, IMapper mapper)
         {
             _profesorService = profesorService;
             _authService = authService;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<Profesor>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<ActionResult<PagedResult<ProfesorDto>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var profesores = await _profesorService.GetProfesores(page, pageSize);
+            var pagination = await _profesorService.GetProfesores(page, pageSize);
 
-            return Ok(profesores);
+            var profesoresDto = _mapper.Map<IEnumerable<ProfesorDto>>(pagination.Items);
+
+            var response = new PagedResult<ProfesorDto>
+            {
+                TotalItems = pagination.TotalItems,
+                Items = [.. profesoresDto],
+                PageNumber = pagination.PageNumber,
+                PageSize = pagination.PageSize
+            };
+
+            return Ok(response);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Profesor([FromBody] ProfesorSignupRequest request)
+        public async Task<ActionResult<ProfesorDto>> Profesor([FromBody] ProfesorSignupRequest request)
         {
             var user = new IdentityUser
             {
@@ -65,7 +79,9 @@ namespace WebApplication2.Controllers
 
                 var profesor = await _profesorService.CrearProfesor(newProfesor);
 
-                return Ok(profesor);
+                var profesorDto = _mapper.Map<ProfesorDto>(profesor);
+
+                return Ok(profesorDto);
             }
             catch (Exception ex)
             {
