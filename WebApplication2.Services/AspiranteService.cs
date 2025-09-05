@@ -15,22 +15,25 @@ namespace WebApplication2.Services
             _dbContext = dbContext;
         }
 
-        public async Task<PagedResult<Aspirante>> GetAspirantes(int page, int pageSize)
+        public async Task<PagedResult<AspirantePrograma>> GetAspirantes(int page, int pageSize)
         {
             var totalItems = await _dbContext.Aspirantes
                 .Where(d => d.Persona.Estatus == StatusEnum.Activo)
                 .CountAsync();
 
-            var aspirantes = await _dbContext.Aspirantes
-                .Include(d => d.Persona)
-                .Include(d => d.Persona.PersonaGenero)
-                .Where(d => d.Persona.Estatus == StatusEnum.Activo)
-                .OrderBy(d => d.Persona.ApellidoPaterno)
+            var aspirantes = await _dbContext.AspirantesProgramas
+                .Include(d => d.Programa)
+                .ThenInclude(d => d.Departamento)
+                .Include(d => d.Aspirante)
+                .ThenInclude(d => d.Persona)
+                .ThenInclude(d => d.PersonaGenero)
+                .Where(d => d.Aspirante.Persona.Estatus == StatusEnum.Activo)
+                .OrderBy(d => d.Aspirante.Persona.ApellidoPaterno)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
-            return new PagedResult<Aspirante>
+            return new PagedResult<AspirantePrograma>
             {
                 TotalItems = totalItems,
                 Items = aspirantes,
@@ -39,12 +42,12 @@ namespace WebApplication2.Services
             };
         }
 
-        public async Task<Aspirante> CrearAspirante(Aspirante aspirante)
+        public async Task<AspirantePrograma> CrearAspirante(AspirantePrograma aspirantePrograma)
         {
-            await _dbContext.Aspirantes.AddAsync(aspirante);
+            await _dbContext.AspirantesProgramas.AddAsync(aspirantePrograma);
             await _dbContext.SaveChangesAsync();
 
-            return aspirante;
+            return aspirantePrograma;
         }
 
         public async Task<Aspirante> EliminarAspirante(int id)

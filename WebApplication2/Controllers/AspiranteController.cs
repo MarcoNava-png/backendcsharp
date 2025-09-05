@@ -26,13 +26,13 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<AspiranteDto>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<ActionResult<PagedResult<AspiranteProgramaDto>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
             var pagination = await _aspiranteService.GetAspirantes(page, pageSize);
 
-            var aspirantesDto = _mapper.Map<IEnumerable<AspiranteDto>>(pagination.Items);
+            var aspirantesDto = _mapper.Map<IEnumerable<AspiranteProgramaDto>>(pagination.Items);
 
-            var response = new PagedResult<AspiranteDto>
+            var response = new PagedResult<AspiranteProgramaDto>
             {
                 TotalItems = pagination.TotalItems,
                 Items = [.. aspirantesDto],
@@ -44,7 +44,7 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AspiranteDto>> Post([FromBody] DirectorSignupRequest request)
+        public async Task<ActionResult<AspiranteProgramaDto>> Post([FromBody] AspiranteSignupRequest request)
         {
             var user = new IdentityUser
             {
@@ -56,31 +56,37 @@ namespace WebApplication2.Controllers
             {
                 var signupResponse = await _authService.Signup(user, request.Password, [Rol.ALUMNO]);
 
-                var newAspirante = new Aspirante
+                var newAspirante = new AspirantePrograma
                 {
-                    Persona = new Persona
+                    Aspirante = new Aspirante
                     {
-                        Nombre = request.Nombre,
-                        ApellidoPaterno = request.ApellidoPaterno,
-                        ApellidoMaterno = request.ApellidoMaterno,
-                        FechaNacimiento = request.FechaNacimiento,
-                        PersonaGeneroId = request.PersonaGeneroId,
-                        UserId = signupResponse.Id,
-                        Estatus = StatusEnum.Activo,
-                        Direccion = new Direccion
+                        Persona = new Persona
                         {
-                            Calle = request.Calle,
-                            Numero = request.Numero,
-                            CodigoPostalId = request.CodigoPostalId,
-                        }
+                            Nombre = request.Nombre,
+                            ApellidoPaterno = request.ApellidoPaterno,
+                            ApellidoMaterno = request.ApellidoMaterno,
+                            FechaNacimiento = request.FechaNacimiento,
+                            PersonaGeneroId = request.PersonaGeneroId,
+                            UserId = signupResponse.Id,
+                            Estatus = StatusEnum.Activo,
+                            Direccion = new Direccion
+                            {
+                                Calle = request.Calle,
+                                Numero = request.Numero,
+                                CodigoPostalId = request.CodigoPostalId,
+                            }
+                        },
+                        Estatus = Core.Enums.AspiranteStatusEnum.Registrado,
+                        FechaRegistro = DateTime.UtcNow
                     },
-                    Estatus = Core.Enums.AspiranteStatusEnum.Registrado,
-                    FechaRegistro = DateTime.UtcNow
+                    AspiranteProgramaEstatusId = 1,
+                    FechaPostulacion = DateTime.UtcNow,
+                    ProgramaId = request.ProgramaId,
                 };
 
                 var aspirante = await _aspiranteService.CrearAspirante(newAspirante);
 
-                var aspiranteDto = _mapper.Map<AspiranteDto>(aspirante);
+                var aspiranteDto = _mapper.Map<AspiranteProgramaDto>(aspirante);
 
                 return Ok(aspiranteDto);
             }

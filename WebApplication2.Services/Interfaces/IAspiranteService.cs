@@ -5,8 +5,8 @@ namespace WebApplication2.Services.Interfaces
 {
     public interface IAspiranteService
     {
-        Task<PagedResult<Aspirante>> GetAspirantes(int page, int pageSize);
-        Task<Aspirante> CrearAspirante(Aspirante aspirante);
+        Task<PagedResult<AspirantePrograma>> GetAspirantes(int page, int pageSize);
+        Task<AspirantePrograma> CrearAspirante(AspirantePrograma aspirantePrograma);
         Task<Aspirante> EliminarAspirante(int id);
     }
 }

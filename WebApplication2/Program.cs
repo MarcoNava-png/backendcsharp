@@ -76,6 +76,9 @@ builder.Services.AddScoped<ICoordinadorService, CoordinadorService>();
 builder.Services.AddScoped<IUbicacionService, UbicacionService>();
 builder.Services.AddScoped<IAspiranteService, AspiranteService>();
 builder.Services.AddScoped<IEstudianteService, EstudianteService>();
+builder.Services.AddScoped<IPlanEstudioService, PlanEstudiosService>();
+builder.Services.AddScoped<IDepartamentoService, DepartamentoService>();
+builder.Services.AddScoped<IGrupoService, GrupoService>();
 
 var app = builder.Build();
 

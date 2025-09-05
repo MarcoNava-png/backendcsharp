@@ -27,14 +27,14 @@ namespace WebApplication2.Data.Seed
 
                     RoleSeed.Seed(roleManager);
                     UserSeed.Seed(userManager);
-
+                    PlanEstudioSeed.Seed(context);
+                    AspiranteProgramaEstatusSeed.Seed(context);
                 }
                 catch (Exception)
                 {
                     // Do nothing
                 }
             }
-
         }
     }
 }

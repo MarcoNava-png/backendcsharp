@@ -16,6 +16,11 @@ namespace WebApplication2.Configuration.Mapping
                 new DirectorProfile(),
                 new EstudianteProfile(),
                 new ProfesorProfile(),
+                new DepartamentoProfile(),
+                new AspiranteProgramaProfile(),
+                new ProgramaProfile(),
+                new GrupoProfile(),
+                new PlanEstudioProfile(),
             };
         }
     }
