@@ -1,6 +1,6 @@
 ﻿namespace WebApplication2.Core.Requests.Estudiante
 {
-    public class EstudianteSignupRequest
+    public class EstudianteRequest
     {
         public string Matricula { get; set; }
         public Guid PersonaId { get; set; }

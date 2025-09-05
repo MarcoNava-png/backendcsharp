@@ -40,7 +40,7 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<GrupoDto>> Grupo([FromBody] GrupoSignupRequest request)
+        public async Task<ActionResult<GrupoDto>> Grupo([FromBody] GrupoRequest request)
         {
             try
             {

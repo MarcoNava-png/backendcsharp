@@ -36,6 +36,7 @@ namespace WebApplication2.Data.DbContexts
         public DbSet<Clase> Clases { get; set; }
         public DbSet<HistorialAcademico> HistorialAcademico { get; set; }
         public DbSet<Direccion> Direcciones { get; set; }
+        public DbSet<Inscripcion> Inscripciones { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

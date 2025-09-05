@@ -40,7 +40,7 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<EstudianteDto>> Estudiante([FromBody] EstudianteSignupRequest request)
+        public async Task<ActionResult<EstudianteDto>> Estudiante([FromBody] EstudianteRequest request)
         {
             try
             {

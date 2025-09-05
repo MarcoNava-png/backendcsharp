@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using WebApplication2.Configuration.Mapping.Profiles;
+using WebApplication2.Core.DTOs;
 
 namespace WebApplication2.Configuration.Mapping
 {
@@ -21,6 +22,7 @@ namespace WebApplication2.Configuration.Mapping
                 new ProgramaProfile(),
                 new GrupoProfile(),
                 new PlanEstudioProfile(),
+                new InscripcionProfile(),
             };
         }
     }

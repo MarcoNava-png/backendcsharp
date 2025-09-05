@@ -1,6 +1,6 @@
 ﻿namespace WebApplication2.Core.Requests.Grupo
 {
-    public class GrupoSignupRequest
+    public class GrupoRequest
     {
         public string Clave { get; set; }
         public int PlanEstudiosId { get; set; }
