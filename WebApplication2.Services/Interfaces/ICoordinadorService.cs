@@ -5,8 +5,8 @@ namespace WebApplication2.Services.Interfaces
 {
     public interface ICoordinadorService
     {
-        Task<PagedResult<Coordinador>> GetCoordinadores(int page, int pageSize);
-        Task<Coordinador> CrearCoordinador(Coordinador coordinador);
-        Task<Coordinador> EliminarCoordinador(int id);
+        //Task<PagedResult<Coordinador>> GetCoordinadores(int page, int pageSize);
+        //Task<Coordinador> CrearCoordinador(Coordinador coordinador);
+        //Task<Coordinador> EliminarCoordinador(int id);
     }
 }

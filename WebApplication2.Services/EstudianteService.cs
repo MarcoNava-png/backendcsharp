@@ -8,64 +8,64 @@ namespace WebApplication2.Services
 {
     public class EstudianteService : IEstudianteService
     {
-        private readonly ApplicationDbContext _dbContext;
+        //private readonly ApplicationDbContext _dbContext;
 
-        public EstudianteService(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        //public EstudianteService(ApplicationDbContext dbContext)
+        //{
+        //    _dbContext = dbContext;
+        //}
 
-        public async Task<PagedResult<Estudiante>> GetEstudiantes(int page, int pageSize)
-        {
-            var totalItems = await _dbContext.Estudiantes
-                .Include(d => d.Persona)
-                .Where(d => d.Persona.Estatus == StatusEnum.Activo)
-                .CountAsync();
+        //public async Task<PagedResult<Estudiante>> GetEstudiantes(int page, int pageSize)
+        //{
+        //    var totalItems = await _dbContext.Estudiantes
+        //        .Include(d => d.Persona)
+        //        .Where(d => d.Persona.Estatus == StatusEnum.Activo)
+        //        .CountAsync();
 
-            var items = await _dbContext.Estudiantes
-                .Include(d => d.Persona)
-                .Include(e => e.NivelEducativo)
-                .Where(d => d.Persona.Estatus == StatusEnum.Activo)
-                .OrderBy(d => d.Persona.ApellidoPaterno)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+        //    var items = await _dbContext.Estudiantes
+        //        .Include(d => d.Persona)
+        //        .Include(e => e.NivelEducativo)
+        //        .Where(d => d.Persona.Estatus == StatusEnum.Activo)
+        //        .OrderBy(d => d.Persona.ApellidoPaterno)
+        //        .Skip((page - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToListAsync();
 
-            return new PagedResult<Estudiante>
-            {
-                TotalItems = totalItems,
-                Items = items,
-                PageNumber = page,
-                PageSize = pageSize
-            };
-        }
+        //    return new PagedResult<Estudiante>
+        //    {
+        //        TotalItems = totalItems,
+        //        Items = items,
+        //        PageNumber = page,
+        //        PageSize = pageSize
+        //    };
+        //}
 
-        public async Task<Estudiante> CrearEstudiante(Estudiante estudiante)
-        {
-            await _dbContext.Estudiantes.AddAsync(estudiante);
-            await _dbContext.SaveChangesAsync();
+        //public async Task<Estudiante> CrearEstudiante(Estudiante estudiante)
+        //{
+        //    await _dbContext.Estudiantes.AddAsync(estudiante);
+        //    await _dbContext.SaveChangesAsync();
 
-            return estudiante;
-        }
+        //    return estudiante;
+        //}
 
-        public async Task<Estudiante> EliminarEstudiante(string matricula)
-        {
-            var item = await _dbContext.Estudiantes
-                .Include(d => d.Persona)
-                .SingleOrDefaultAsync(p => p.Id == matricula);
+        //public async Task<Estudiante> EliminarEstudiante(string matricula)
+        //{
+        //    var item = await _dbContext.Estudiantes
+        //        .Include(d => d.Persona)
+        //        .SingleOrDefaultAsync(p => p.Id == matricula);
 
-            if (item == null)
-            {
-                throw new Exception("No existe persona con el id ingresado");
-            }
+        //    if (item == null)
+        //    {
+        //        throw new Exception("No existe persona con el id ingresado");
+        //    }
 
-            item.Persona.Estatus = StatusEnum.Inactivo;
+        //    item.Persona.Estatus = StatusEnum.Inactivo;
 
-            _dbContext.Estudiantes.Update(item);
+        //    _dbContext.Estudiantes.Update(item);
 
-            await _dbContext.SaveChangesAsync();
+        //    await _dbContext.SaveChangesAsync();
 
-            return item;
-        }
+        //    return item;
+        //}
     }
 }

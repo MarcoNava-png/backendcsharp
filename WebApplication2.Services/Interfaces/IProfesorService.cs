@@ -5,8 +5,8 @@ namespace WebApplication2.Services.Interfaces
 {
     public interface IProfesorService
     {
-        Task<PagedResult<Profesor>> GetProfesores(int page, int pageSize);
-        Task<Profesor> CrearProfesor(Profesor profesor);
-        Task<Profesor> EliminarProfesor(int id);
+        //Task<PagedResult<Profesor>> GetProfesores(int page, int pageSize);
+        //Task<Profesor> CrearProfesor(Profesor profesor);
+        //Task<Profesor> EliminarProfesor(int id);
     }
 }

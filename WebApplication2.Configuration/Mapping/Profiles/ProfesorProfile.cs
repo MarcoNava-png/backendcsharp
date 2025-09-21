@@ -8,7 +8,7 @@ namespace WebApplication2.Configuration.Mapping.Profiles
     {
         public ProfesorProfile()
         {
-            CreateMap<Profesor, ProfesorDto>();
+            //CreateMap<Profesor, ProfesorDto>();
         }
     }
 }

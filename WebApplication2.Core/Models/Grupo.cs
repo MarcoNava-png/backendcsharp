@@ -1,15 +1,26 @@
-﻿using WebApplication2.Core.Common;
+﻿namespace WebApplication2.Core.Models;
 
-namespace WebApplication2.Core.Models
+public partial class Grupo : BaseEntity
 {
-    public class Grupo
-    {
-        public int Id { get; set; }
-        public string Clave { get; set; }
-        public int PlanEstudiosId { get; set; }
-        public int Semestre { get; set; }
-        public int Periodicidad { get; set; }
-        public PlanEstudios PlanEstudios { get; set; }
-        public StatusEnum Status { get; set; }
-    }
+    public int IdGrupo { get; set; }
+
+    public int IdPlanEstudios { get; set; }
+
+    public int IdPeriodoAcademico { get; set; }
+
+    public byte NumeroCuatrimestre { get; set; }
+
+    public byte NumeroGrupo { get; set; }
+
+    public int IdTurno { get; set; }
+
+    public short CapacidadMaxima { get; set; }
+
+    public virtual ICollection<GrupoMateria> GrupoMateria { get; set; } = new List<GrupoMateria>();
+
+    public virtual PeriodoAcademico IdPeriodoAcademicoNavigation { get; set; } = null!;
+
+    public virtual PlanEstudios IdPlanEstudiosNavigation { get; set; } = null!;
+
+    public virtual Turno IdTurnoNavigation { get; set; } = null!;
 }

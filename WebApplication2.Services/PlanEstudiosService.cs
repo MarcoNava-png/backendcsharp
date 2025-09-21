@@ -15,12 +15,15 @@ namespace WebApplication2.Services
             _dbContext = dbContext;
         }
 
-        public async Task<PagedResult<PlanEstudios>> GetPlanesEstudios(int page, int pageSize)
+        public async Task<PagedResult<PlanEstudios>> GetPlanesEstudios(int page, int pageSize, int campusId)
         {
             var totalItems = await _dbContext.PlanEstudios
+                .Where(p => p.IdCampus == campusId)
                 .CountAsync();
 
             var profesores = await _dbContext.PlanEstudios
+                .Include(p => p.IdCampusNavigation)
+                .Where(p => p.IdCampus == campusId)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();

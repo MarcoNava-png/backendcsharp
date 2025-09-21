@@ -7,16 +7,16 @@ namespace WebApplication2.Services
 {
     public class DepartamentoService : IDepartamentoService
     {
-        private readonly ApplicationDbContext _dbContext;
+        //private readonly ApplicationDbContext _dbContext;
 
-        public DepartamentoService(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        //public DepartamentoService(ApplicationDbContext dbContext)
+        //{
+        //    _dbContext = dbContext;
+        //}
 
-        public async Task<IEnumerable<Departamento>> GetDepartamentos()
-        {
-            return await _dbContext.Departamentos.ToListAsync();
-        }
+        //public async Task<IEnumerable<Departamento>> GetDepartamentos()
+        //{
+        //    return await _dbContext.Departamentos.ToListAsync();
+        //}
     }
 }

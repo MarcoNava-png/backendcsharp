@@ -8,7 +8,7 @@ namespace WebApplication2.Configuration.Mapping.Profiles
     {
         public DirectorProfile()
         {
-            CreateMap<Director, DirectorDto>();
+            //CreateMap<Director, DirectorDto>();
         }
     }
 }

@@ -1,12 +1,20 @@
-﻿namespace WebApplication2.Core.Models
+﻿namespace WebApplication2.Core.Models;
+
+public partial class Inscripcion : BaseEntity
 {
-    public class Inscripcion
-    {
-        public int Id { get; set; }
-        public string EstudianteId { get; set; }
-        public Estudiante Estudiante { get; set; }
-        public DateTime Fecha { get; set; }
-        public int PlanEstudiosId { get; set; }
-        public PlanEstudios PlanEstudios { get; set; }
-    }
+    public int IdInscripcion { get; set; }
+
+    public int IdEstudiante { get; set; }
+
+    public int IdGrupoMateria { get; set; }
+
+    public DateTime FechaInscripcion { get; set; }
+
+    public string Estado { get; set; } = null!;
+
+    public decimal? CalificacionFinal { get; set; }
+
+    public virtual Estudiante IdEstudianteNavigation { get; set; } = null!;
+
+    public virtual GrupoMateria IdGrupoMateriaNavigation { get; set; } = null!;
 }

@@ -4,9 +4,16 @@ namespace WebApplication2.Core.DTOs
 {
     public class AspiranteDto
     {
-        public int Id { get; set; }
+        public int IdAspirante { get; set; }
+
+        public string NombreCompleto { get; set; }
+
+        public string Email { get; set; }
+
+        public string AspiranteEstatus { get; set; }
+
         public DateTime FechaRegistro { get; set; }
-        public string Estatus { get; set; }
-        public PersonaDto Persona { get; set; }
+
+        public string PlanEstudios { get; set; }
     }
 }

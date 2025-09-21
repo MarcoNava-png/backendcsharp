@@ -8,7 +8,7 @@ namespace WebApplication2.Configuration.Mapping.Profiles
     {
         public CoordinadorProfile()
         {
-            CreateMap<Coordinador, CoordinadorDto>();
+            //CreateMap<Coordinador, CoordinadorDto>();
         }
     }
 }

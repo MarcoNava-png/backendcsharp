@@ -80,6 +80,7 @@ builder.Services.AddScoped<IPlanEstudioService, PlanEstudiosService>();
 builder.Services.AddScoped<IDepartamentoService, DepartamentoService>();
 builder.Services.AddScoped<IGrupoService, GrupoService>();
 builder.Services.AddScoped<IInscripcionService, InscripcionService>();
+builder.Services.AddScoped<ICatalogoService, CatalogoService>();
 
 var app = builder.Build();
 

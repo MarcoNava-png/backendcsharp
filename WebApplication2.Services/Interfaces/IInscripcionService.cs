@@ -5,8 +5,8 @@ namespace WebApplication2.Services.Interfaces
 {
     public interface IInscripcionService
     {
-        Task<PagedResult<Inscripcion>> GetInscripciones(int page, int pageSize);
-        Task<Inscripcion> CrearInscripcion(Inscripcion inscripcion);
-        Task<Inscripcion> EliminarInscripcion(int id);
+        //Task<PagedResult<Inscripcion>> GetInscripciones(int page, int pageSize);
+        //Task<Inscripcion> CrearInscripcion(Inscripcion inscripcion);
+        //Task<Inscripcion> EliminarInscripcion(int id);
     }
 }

@@ -8,45 +8,45 @@ namespace WebApplication2.Services
 {
     public class InscripcionService : IInscripcionService
     {
-        private readonly ApplicationDbContext _dbContext;
+        //private readonly ApplicationDbContext _dbContext;
 
-        public InscripcionService(ApplicationDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        //public InscripcionService(ApplicationDbContext dbContext)
+        //{
+        //    _dbContext = dbContext;
+        //}
 
-        public async Task<PagedResult<Inscripcion>> GetInscripciones(int page, int pageSize)
-        {
-            var totalItems = await _dbContext.Inscripciones
-                .CountAsync();
+        //public async Task<PagedResult<Inscripcion>> GetInscripciones(int page, int pageSize)
+        //{
+        //    var totalItems = await _dbContext.Inscripciones
+        //        .CountAsync();
 
-            var inscripciones = await _dbContext.Inscripciones
-                .Include(i => i.Estudiante)
-                .Include(i => i.PlanEstudios)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
+        //    var inscripciones = await _dbContext.Inscripciones
+        //        .Include(i => i.Estudiante)
+        //        .Include(i => i.PlanEstudios)
+        //        .Skip((page - 1) * pageSize)
+        //        .Take(pageSize)
+        //        .ToListAsync();
 
-            return new PagedResult<Inscripcion>
-            {
-                TotalItems = totalItems,
-                Items = inscripciones,
-                PageNumber = page,
-                PageSize = pageSize
-            };
-        }
+        //    return new PagedResult<Inscripcion>
+        //    {
+        //        TotalItems = totalItems,
+        //        Items = inscripciones,
+        //        PageNumber = page,
+        //        PageSize = pageSize
+        //    };
+        //}
 
-        public async Task<Inscripcion> CrearInscripcion(Inscripcion inscripcion)
-        {
-            await _dbContext.AddAsync(inscripcion);
-            await _dbContext.SaveChangesAsync();
+        //public async Task<Inscripcion> CrearInscripcion(Inscripcion inscripcion)
+        //{
+        //    await _dbContext.AddAsync(inscripcion);
+        //    await _dbContext.SaveChangesAsync();
 
-            return inscripcion;
-        }
+        //    return inscripcion;
+        //}
 
-        public async Task<Inscripcion> EliminarInscripcion(int id)
-        {
-            throw new NotImplementedException();
-        }
+        //public async Task<Inscripcion> EliminarInscripcion(int id)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

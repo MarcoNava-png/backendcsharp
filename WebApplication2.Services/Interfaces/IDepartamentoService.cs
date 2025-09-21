@@ -4,6 +4,6 @@ namespace WebApplication2.Services.Interfaces
 {
     public interface IDepartamentoService
     {
-        Task<IEnumerable<Departamento>> GetDepartamentos();
+        //Task<IEnumerable<Departamento>> GetDepartamentos();
     }
 }

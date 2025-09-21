@@ -1,18 +1,32 @@
-﻿using WebApplication2.Core.Common;
-using WebApplication2.Core.Enums;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace WebApplication2.Core.Models
+namespace WebApplication2.Core.Models;
+
+public partial class Estudiante : BaseEntity
 {
-    public class Estudiante
-    {
-        // Matricula
-        public string Id { get; set; }
-        public Guid PersonaId { get; set; }
-        public Persona Persona { get; set; }
-        public DateTime FechaIngreso { get; set; }
-        public int NivelEducativoId { get; set; }
-        public NivelEducativo NivelEducativo { get; set; }
-        public EstudianteStatusAcademicoEnum StatusAcademico { get; set; }
-        public StatusEnum Status { get; set; }
-    }
+    public int IdEstudiante { get; set; }
+
+    public string Matricula { get; set; } = null!;
+
+    public int IdPersona { get; set; }
+
+    public string? Email { get; set; }
+
+    public DateOnly FechaIngreso { get; set; }
+
+    public int? IdPlanActual { get; set; }
+
+    public bool Activo { get; set; }
+
+    public string? UsuarioId { get; set; }
+
+    public virtual ICollection<EstudiantePlan> EstudiantePlan { get; set; } = new List<EstudiantePlan>();
+
+    public virtual Persona IdPersonaNavigation { get; set; } = null!;
+
+    public virtual PlanEstudios? IdPlanActualNavigation { get; set; }
+
+    public virtual ICollection<Inscripcion> Inscripcion { get; set; } = new List<Inscripcion>();
+
+    public virtual IdentityUser Usuario { get; set; }
 }

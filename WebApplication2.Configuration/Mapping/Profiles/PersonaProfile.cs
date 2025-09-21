@@ -8,8 +8,8 @@ namespace WebApplication2.Configuration.Mapping.Profiles
     {
         public PersonaProfile()
         {
-            CreateMap<Persona, PersonaDto>()
-                .ForMember(dto => dto.PersonaGenero, map => map.MapFrom(model => model.PersonaGenero.Genero));
+            //CreateMap<Persona, PersonaDto>()
+            //    .ForMember(dto => dto.PersonaGenero, map => map.MapFrom(model => model.PersonaGenero.Genero));
         }
     }
 }

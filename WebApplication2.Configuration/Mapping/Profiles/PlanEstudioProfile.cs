@@ -8,7 +8,7 @@ namespace WebApplication2.Configuration.Mapping.Profiles
     {
         public PlanEstudioProfile()
         {
-            CreateMap<PlanEstudios, PlanEstudioDto>();
+            //CreateMap<PlanEstudios, PlanEstudioDto>();
         }
     }
 }

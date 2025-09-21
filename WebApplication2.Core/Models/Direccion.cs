@@ -1,12 +1,19 @@
-﻿namespace WebApplication2.Core.Models
+﻿namespace WebApplication2.Core.Models;
+
+public partial class Direccion : BaseEntity
 {
-    public class Direccion
-    {
-        public int Id { get; set; }
-        public string Calle { get; set; }
-        public string Numero { get; set; }
-        public int CodigoPostalId { get; set; }
-        public CodigoPostal CodigoPostal { get; set; }
-        public ICollection<Persona> Personas { get; set; } = new List<Persona>();
-    }
+    public int IdDireccion { get; set; }
+
+    public string? Calle { get; set; }
+
+    public string? NumeroExterior { get; set; }
+
+    public string? NumeroInterior { get; set; }
+
+    public int CodigoPostalId { get; set; }
+
+    public virtual ICollection<Campus> Campus { get; set; } = new List<Campus>();
+
+    public virtual ICollection<Persona> Persona { get; set; } = new List<Persona>();
+    public virtual CodigoPostal? CodigoPostal { get; set; }
 }

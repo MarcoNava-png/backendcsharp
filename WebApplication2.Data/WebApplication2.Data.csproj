@@ -31,4 +31,9 @@
     <ProjectReference Include="..\WebApplication2.Core\WebApplication2.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

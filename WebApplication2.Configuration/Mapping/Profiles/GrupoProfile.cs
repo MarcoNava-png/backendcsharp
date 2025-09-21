@@ -8,7 +8,7 @@ namespace WebApplication2.Configuration.Mapping.Profiles
     {
         public GrupoProfile()
         {
-            CreateMap<Grupo, GrupoDto>();
+            //CreateMap<Grupo, GrupoDto>();
         }
     }
 }

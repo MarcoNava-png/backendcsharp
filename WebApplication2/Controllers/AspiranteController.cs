@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using WebApplication2.Configuration.Constants;
 using WebApplication2.Core.Common;
 using WebApplication2.Core.DTOs;
 using WebApplication2.Core.Models;
-using WebApplication2.Core.Requests.Auth;
+using WebApplication2.Core.Requests.Aspirante;
 using WebApplication2.Services.Interfaces;
 
 namespace WebApplication2.Controllers
@@ -15,27 +13,25 @@ namespace WebApplication2.Controllers
     public class AspiranteController : ControllerBase
     {
         private readonly IAspiranteService _aspiranteService;
-        private readonly IAuthService _authService;
         private readonly IMapper _mapper;
 
-        public AspiranteController(IAspiranteService aspiranteService, IAuthService authService, IMapper mapper)
+        public AspiranteController(IAspiranteService aspiranteService, IMapper mapper)
         {
             _aspiranteService = aspiranteService;
-            _authService = authService;
             _mapper = mapper;
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<AspiranteProgramaDto>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<ActionResult<PagedResult<AspiranteDto>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
             var pagination = await _aspiranteService.GetAspirantes(page, pageSize);
 
-            var aspirantesDto = _mapper.Map<IEnumerable<AspiranteProgramaDto>>(pagination.Items);
+            var aspirantesDtos = _mapper.Map<IEnumerable<AspiranteDto>>(pagination.Items);
 
-            var response = new PagedResult<AspiranteProgramaDto>
+            var response = new PagedResult<AspiranteDto>
             {
                 TotalItems = pagination.TotalItems,
-                Items = [.. aspirantesDto],
+                Items = [.. aspirantesDtos],
                 PageNumber = pagination.PageNumber,
                 PageSize = pagination.PageSize
             };
@@ -44,51 +40,50 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AspiranteProgramaDto>> Post([FromBody] AspiranteSignupRequest request)
+        public async Task<ActionResult> Post([FromBody] AspiranteSignupRequest request)
         {
-            var user = new IdentityUser
+            Direccion? direccion = null;
+            
+            if (request.Calle != null && request.NumeroExterior != null && request.CodigoPostalId != null)
             {
-                UserName = request.Email,
-                Email = request.Email,
+                direccion = new Direccion
+                {
+                    Calle = request.Calle,
+                    NumeroExterior = request.NumeroExterior,
+                    NumeroInterior = request.NumeroInterior,
+                    CodigoPostalId = request.CodigoPostalId.Value
+                };
+            }
+
+            var newAspirante = new Aspirante
+            {
+                IdPersonaNavigation = new Persona
+                {
+                    Nombre = request.Nombre,
+                    ApellidoPaterno = request.ApellidoPaterno,
+                    ApellidoMaterno = request.ApellidoMaterno,
+                    FechaNacimiento = DateOnly.FromDateTime(request.FechaNacimiento),
+                    IdGenero = request.GeneroId,
+                    Curp = request.CURP,
+
+                    Correo = request.Correo,
+                    Telefono = request.Telefono,
+
+                    IdDireccionNavigation = direccion,
+                },
+                IdPlan = request.PlanEstudiosId,
+                IdMedioContacto = request.MedioContactoId,
+                FechaRegistro = DateTime.UtcNow,
+                Observaciones = request.Notas,
+                TurnoId = request.HorarioId,
+                IdAspiranteEstatus = request.AspiranteStatusId
             };
 
             try
             {
-                var signupResponse = await _authService.Signup(user, request.Password, [Rol.ALUMNO]);
-
-                var newAspirante = new AspirantePrograma
-                {
-                    Aspirante = new Aspirante
-                    {
-                        Persona = new Persona
-                        {
-                            Nombre = request.Nombre,
-                            ApellidoPaterno = request.ApellidoPaterno,
-                            ApellidoMaterno = request.ApellidoMaterno,
-                            FechaNacimiento = request.FechaNacimiento,
-                            PersonaGeneroId = request.PersonaGeneroId,
-                            UserId = signupResponse.Id,
-                            Estatus = StatusEnum.Activo,
-                            Direccion = new Direccion
-                            {
-                                Calle = request.Calle,
-                                Numero = request.Numero,
-                                CodigoPostalId = request.CodigoPostalId,
-                            }
-                        },
-                        Estatus = Core.Enums.AspiranteStatusEnum.Registrado,
-                        FechaRegistro = DateTime.UtcNow
-                    },
-                    AspiranteProgramaEstatusId = 1,
-                    FechaPostulacion = DateTime.UtcNow,
-                    ProgramaId = request.ProgramaId,
-                };
-
                 var aspirante = await _aspiranteService.CrearAspirante(newAspirante);
 
-                var aspiranteDto = _mapper.Map<AspiranteProgramaDto>(aspirante);
-
-                return Ok(aspiranteDto);
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -96,12 +91,50 @@ namespace WebApplication2.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        [HttpPut]
+        public async Task<IActionResult> Put([FromBody] AspiranteUpdateRequest request)
         {
+            Direccion? direccion = null;
+
+            if (request.Calle != null && request.NumeroExterior != null && request.CodigoPostalId != null)
+            {
+                direccion = new Direccion
+                {
+                    Calle = request.Calle,
+                    NumeroExterior = request.NumeroExterior,
+                    NumeroInterior = request.NumeroInterior,
+                    CodigoPostalId = request.CodigoPostalId.Value
+                };
+            }
+
+            var newAspirante = new Aspirante
+            {
+                IdAspirante = request.AspiranteId,
+                IdPersonaNavigation = new Persona
+                {
+                    Nombre = request.Nombre,
+                    ApellidoPaterno = request.ApellidoPaterno,
+                    ApellidoMaterno = request.ApellidoMaterno,
+                    FechaNacimiento = DateOnly.FromDateTime(request.FechaNacimiento),
+                    IdGenero = request.GeneroId,
+                    Curp = request.CURP,
+
+                    Correo = request.Correo,
+                    Telefono = request.Telefono,
+
+                    IdDireccionNavigation = direccion,
+                },
+                IdPlan = request.PlanEstudiosId,
+                IdMedioContacto = request.MedioContactoId,
+                FechaRegistro = DateTime.UtcNow,
+                Observaciones = request.Notas,
+                TurnoId = request.HorarioId,
+                IdAspiranteEstatus = request.AspiranteStatusId
+            };
+
             try
             {
-                await _aspiranteService.EliminarAspirante(id);
+                await _aspiranteService.ActualizarAspirante(newAspirante);
 
                 return NoContent();
             }

@@ -1,9 +1,24 @@
-﻿namespace WebApplication2.Core.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace WebApplication2.Core.Models;
+
+public partial class Profesor : BaseEntity
 {
-    public class Profesor
-    {
-        public int Id { get; set; }
-        public string Especialidad { get; set; }
-        public Persona Persona { get; set; }
-    }
+    public int IdProfesor { get; set; }
+
+    public string NoEmpleado { get; set; } = null!;
+
+    public int IdPersona { get; set; }
+
+    public string? EmailInstitucional { get; set; }
+
+    public bool Activo { get; set; }
+
+    public string? UsuarioId { get; set; }
+
+    public virtual ICollection<GrupoMateria> GrupoMateria { get; set; } = new List<GrupoMateria>();
+
+    public virtual Persona IdPersonaNavigation { get; set; } = null!;
+    
+    public virtual IdentityUser Usuario { get; set; }
 }

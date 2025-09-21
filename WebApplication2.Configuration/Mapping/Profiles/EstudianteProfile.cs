@@ -8,8 +8,8 @@ namespace WebApplication2.Configuration.Mapping.Profiles
     {
         public EstudianteProfile()
         {
-            CreateMap<Estudiante, EstudianteDto>()
-                .ForMember(dto => dto.NivelEducativo, map => map.MapFrom(model => model.NivelEducativo.Nombre));
+            //CreateMap<Estudiante, EstudianteDto>()
+            //    .ForMember(dto => dto.NivelEducativo, map => map.MapFrom(model => model.NivelEducativo.Nombre));
         }
     }
 }
