@@ -4,5 +4,6 @@
     {
         Activo = 1,
         Inactivo = 2,
+        Active = 3,
     }
 }

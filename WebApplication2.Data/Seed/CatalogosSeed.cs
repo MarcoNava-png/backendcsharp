@@ -284,6 +284,8 @@ namespace WebApplication2.Data.Seed
                     // TODO: Crear usuario
                     userManager.InsertUser("ana.lopez@uni.mx", "EMP-001", Rol.DOCENTE);
 
+                    var user = userManager.FindByEmailAsync("ana.lopez@uni.mx").Result;
+
                     var items = new List<Profesor>()
                     {
                         new Profesor 
@@ -308,7 +310,8 @@ namespace WebApplication2.Data.Seed
                                 IdEstadoCivil = dbContext.EstadoCivil.FirstOrDefault(ec => ec.DescEstadoCivil == "Casado(a)")!.IdEstadoCivil,
                             },
                             EmailInstitucional = "ana.lopez@uni.mx",
-                            Activo = true
+                            Activo = true,
+                            UsuarioId = user!.Id
                         },
                     };
 
@@ -423,6 +426,8 @@ namespace WebApplication2.Data.Seed
                     // TODO: Crear usuario
                     userManager.InsertUser("A0000001@usag.com", "A0000001", Rol.ALUMNO);
 
+                    var user = userManager.FindByEmailAsync("A0000001@usag.com").Result;
+
                     var planEstudiosISIC2025 = dbContext.PlanEstudios.FirstOrDefault(pe => pe.ClavePlanEstudios == "ISIC-2025")!.IdPlanEstudios;
 
                     var items = new List<Estudiante>()
@@ -451,6 +456,7 @@ namespace WebApplication2.Data.Seed
                             FechaIngreso = DateOnly.Parse("2025-01-01"),
                             IdPlanActual = planEstudiosISIC2025,
                             Activo = true,
+                            UsuarioId = user!.Id
                         },
                     };
 

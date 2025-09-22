@@ -68,6 +68,18 @@ namespace WebApplication2.Services
 
         }
 
+        public async Task<IdentityUser> GetUserByEmail(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                throw new Exception("Usuario no encontrado.");
+            }
+
+            return user;
+        }
+
         public async Task RequestPasswordReset(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);

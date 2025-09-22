@@ -1,11 +1,23 @@
-﻿namespace WebApplication2.Core.DTOs
+﻿using WebApplication2.Core.Models;
+
+namespace WebApplication2.Core.DTOs
 {
     public class InscripcionDto
     {
-        public int Id { get; set; }
-        public EstudianteDto Estudiante { get; set; }
-        public DateTime Fecha { get; set; }
-        public int PlanEstudiosId { get; set; }
-        public PlanEstudioDto PlanEstudios { get; set; }
+        public int IdInscripcion { get; set; }
+
+        public int IdEstudiante { get; set; }
+
+        public int IdGrupoMateria { get; set; }
+
+        public DateTime FechaInscripcion { get; set; }
+
+        public string Estado { get; set; } = null!;
+
+        public decimal? CalificacionFinal { get; set; }
+
+        public virtual Estudiante IdEstudianteNavigation { get; set; } = null!;
+
+        public virtual GrupoMateria IdGrupoMateriaNavigation { get; set; } = null!;
     }
 }

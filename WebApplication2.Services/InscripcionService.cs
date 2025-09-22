@@ -8,19 +8,19 @@ namespace WebApplication2.Services
 {
     public class InscripcionService : IInscripcionService
     {
-        //private readonly ApplicationDbContext _dbContext;
+        private readonly ApplicationDbContext _dbContext;
 
-        //public InscripcionService(ApplicationDbContext dbContext)
-        //{
-        //    _dbContext = dbContext;
-        //}
+        public InscripcionService(ApplicationDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
 
         //public async Task<PagedResult<Inscripcion>> GetInscripciones(int page, int pageSize)
         //{
-        //    var totalItems = await _dbContext.Inscripciones
+        //    var totalItems = await _dbContext.Inscripcion
         //        .CountAsync();
 
-        //    var inscripciones = await _dbContext.Inscripciones
+        //    var inscripciones = await _dbContext.Inscripcion
         //        .Include(i => i.Estudiante)
         //        .Include(i => i.PlanEstudios)
         //        .Skip((page - 1) * pageSize)
@@ -36,13 +36,13 @@ namespace WebApplication2.Services
         //    };
         //}
 
-        //public async Task<Inscripcion> CrearInscripcion(Inscripcion inscripcion)
-        //{
-        //    await _dbContext.AddAsync(inscripcion);
-        //    await _dbContext.SaveChangesAsync();
+        public async Task<Inscripcion> CrearInscripcion(Inscripcion inscripcion)
+        {
+            await _dbContext.AddAsync(inscripcion);
+            await _dbContext.SaveChangesAsync();
 
-        //    return inscripcion;
-        //}
+            return inscripcion;
+        }
 
         //public async Task<Inscripcion> EliminarInscripcion(int id)
         //{

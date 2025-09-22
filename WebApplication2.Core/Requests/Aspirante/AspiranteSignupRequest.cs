@@ -11,8 +11,6 @@ namespace WebApplication2.Core.Requests.Aspirante
         [Required]
         public int PlanEstudiosId { get; set; }
 
-        public int? TurnoId { get; set; }
-
         public int AspiranteStatusId { get; set; }
 
         public int MedioContactoId { get; set; }

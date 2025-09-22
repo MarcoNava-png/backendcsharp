@@ -2,7 +2,12 @@
 {
     public class InscripcionRequest
     {
-        public string Matricula { get; set; }
-        public int PlanEstudiosId { get; set; }
+        public int IdEstudiante { get; set; }
+
+        public int IdGrupoMateria { get; set; }
+
+        public DateTime FechaInscripcion { get; set; }
+
+        public string Estado { get; set; } = null!;
     }
 }

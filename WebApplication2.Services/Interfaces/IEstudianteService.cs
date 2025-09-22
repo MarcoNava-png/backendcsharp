@@ -5,8 +5,9 @@ namespace WebApplication2.Services.Interfaces
 {
     public interface IEstudianteService
     {
-        //Task<PagedResult<Estudiante>> GetEstudiantes(int page, int pageSize);
-        //Task<Estudiante> CrearEstudiante(Estudiante estudiante);
+        Task<PagedResult<Estudiante>> GetEstudiantes(int page, int pageSize);
+        Task<Estudiante> GetEstudianteDetalle(int id);
+        Task<Estudiante> CrearEstudiante(Estudiante estudiante);
         //Task<Estudiante> EliminarEstudiante(string matricula);
     }
 }
