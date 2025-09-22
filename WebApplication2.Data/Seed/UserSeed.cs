@@ -10,9 +10,6 @@ namespace WebApplication2.Data.Seed
         {
             userManager.InsertUser("admin@usag.com", "Admin123", Rol.ADMIN);
             userManager.InsertUser("director@usag.com", "Director123", Rol.DIRECTOR);
-            userManager.InsertUser("coord.ing@usag.com", "Coordi123", Rol.COORDINADOR);
-            userManager.InsertUser("prof.juarez@usag.com", "Profe123", Rol.DOCENTE);
-            userManager.InsertUser("alumno1@usag.com", "Alumn123", Rol.ALUMNO);
             userManager.InsertUser("control@usag.com", "Control123", Rol.CONTROL_ESCOLAR);
         }
 

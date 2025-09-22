@@ -59,10 +59,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {
     options.Lockout.AllowedForNewUsers = true;
-    options.Password.RequiredLength = 8;
-    options.Password.RequireDigit = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequireLowercase = true;
+    options.Password.RequiredLength = 7;
+    options.Password.RequireLowercase = false;
     options.Password.RequireNonAlphanumeric = false;
     options.User.RequireUniqueEmail = true;
 })
@@ -80,7 +78,6 @@ builder.Services.AddScoped<IPlanEstudioService, PlanEstudiosService>();
 builder.Services.AddScoped<IDepartamentoService, DepartamentoService>();
 builder.Services.AddScoped<IGrupoService, GrupoService>();
 builder.Services.AddScoped<IInscripcionService, InscripcionService>();
-builder.Services.AddScoped<ICatalogoService, CatalogoService>();
 
 var app = builder.Build();
 

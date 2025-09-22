@@ -21,15 +21,18 @@ namespace WebApplication2.Data.Seed
                     var roleManager = service.GetRequiredService<RoleManager<IdentityRole>>();
                     var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
-                    var isDevelop = environment == Environments.Development;
+                    var isDevelopment = environment == Environments.Development;
 
                     context.Database.Migrate();
 
-                    //RoleSeed.Seed(roleManager);
-                    //UserSeed.Seed(userManager);
-                    //PlanEstudioSeed.Seed(context);
-                    //AspiranteProgramaEstatusSeed.Seed(context);
-                    CatalogosSeed.Seed(context);
+                    RoleSeed.Seed(roleManager);
+
+                    if (isDevelopment)
+                    {
+                        UserSeed.Seed(userManager);
+                    }
+
+                    CatalogosSeed.Seed(context, isDevelopment, userManager);
                 }
                 catch (Exception)
                 {
