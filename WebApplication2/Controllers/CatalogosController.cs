@@ -71,5 +71,13 @@ namespace WebApplication2.Controllers
 
             return Ok(turnos);
         }
+
+        [HttpGet("user-roles")]
+        public async Task<ActionResult<IEnumerable<string>>> GetRoles()
+        {
+            var roles = await _dbContext.Roles.Select(r => r.Name).ToListAsync();
+
+            return Ok(roles);
+        }
     }
 }

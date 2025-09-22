@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Core.DTOs;
 using WebApplication2.Core.Models;
 using WebApplication2.Core.Requests.Auth;
@@ -28,6 +29,20 @@ namespace WebApplication2
             };
 
             return Ok(response);
+        }
+
+        [HttpPost("create-user")]
+        public async Task<IActionResult> CreateUser(CreateUserRequest request)
+        {
+            var user = new IdentityUser
+            {
+                UserName = request.Email,
+                Email = request.Email,
+            };
+
+            var userLoginInfoDto = await _authService.Signup(user, request.Password, request.Roles);
+
+            return NoContent();
         }
     }
 }
