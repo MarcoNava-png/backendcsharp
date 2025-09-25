@@ -3,6 +3,7 @@
     public enum StatusEnum
     {
         Deleted = 0,
-        Active = 1
+        Active = 1,
+        Disabled = 2,
     }
 }

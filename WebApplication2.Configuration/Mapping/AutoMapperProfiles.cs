@@ -23,6 +23,7 @@ namespace WebApplication2.Configuration.Mapping
                 new GrupoProfile(),
                 new PlanEstudioProfile(),
                 new InscripcionProfile(),
+                new PeriodoAcademicoProfile(),
             };
         }
     }

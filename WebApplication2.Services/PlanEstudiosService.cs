@@ -18,14 +18,19 @@ namespace WebApplication2.Services
         public async Task<PagedResult<PlanEstudios>> GetPlanesEstudios(int page, int pageSize, int campusId)
         {
             var totalItems = await _dbContext.PlanEstudios
+                .Include(p => p.IdCampusNavigation)
+                .Include(p => p.IdPeriodicidadNavigation)
                 .Where(p => p.IdCampus == campusId)
+                .AsNoTracking()
                 .CountAsync();
 
             var profesores = await _dbContext.PlanEstudios
                 .Include(p => p.IdCampusNavigation)
+                .Include(p => p.IdPeriodicidadNavigation)
                 .Where(p => p.IdCampus == campusId)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
+                .AsNoTracking()
                 .ToListAsync();
 
             return new PagedResult<PlanEstudios>
@@ -37,17 +42,42 @@ namespace WebApplication2.Services
             };
         }
 
-        public async Task<PlanEstudios> CrearPlanEstudios(PlanEstudios profesor)
+        public async Task<PlanEstudios> CrearPlanEstudios(PlanEstudios planEstudios)
         {
-            await _dbContext.AddAsync(profesor);
+            await _dbContext.PlanEstudios.AddAsync(planEstudios);
             await _dbContext.SaveChangesAsync();
 
-            return profesor;
+            return planEstudios;
         }
 
-        public async Task<PlanEstudios> EliminarPlanEstudios(int id)
+        public async Task<PlanEstudios> ActualizarPlanEstudios(PlanEstudios newPlanEstudios)
         {
-            throw new NotImplementedException();
+            var planEstudios = await _dbContext.PlanEstudios
+                .FirstOrDefaultAsync(pe => pe.IdPlanEstudios == newPlanEstudios.IdPlanEstudios);
+
+            if (planEstudios == null)
+            {
+                throw new Exception("No existe el plan de estudios con el id ingresado");
+            }
+
+            planEstudios.ClavePlanEstudios = newPlanEstudios.ClavePlanEstudios;
+            planEstudios.NombrePlanEstudios = newPlanEstudios.NombrePlanEstudios;
+            planEstudios.RVOE = newPlanEstudios.RVOE;
+            planEstudios.PermiteAdelantar = newPlanEstudios.PermiteAdelantar;
+            planEstudios.Version = newPlanEstudios.Version;
+            planEstudios.DuracionMeses = newPlanEstudios.DuracionMeses;
+            planEstudios.MinimaAprobatoriaParcial = newPlanEstudios.MinimaAprobatoriaParcial;
+            planEstudios.MinimaAprobatoriaFinal = newPlanEstudios.MinimaAprobatoriaFinal;
+            planEstudios.IdPeriodicidad = newPlanEstudios.IdPeriodicidad;
+            planEstudios.IdNivelEducativo = newPlanEstudios.IdNivelEducativo;
+            planEstudios.IdCampus = newPlanEstudios.IdCampus;
+            planEstudios.Status = newPlanEstudios.Status;
+
+            _dbContext.PlanEstudios.Update(planEstudios);
+
+            await _dbContext.SaveChangesAsync();
+
+            return planEstudios;
         }
     }
 }

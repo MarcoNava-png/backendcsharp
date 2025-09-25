@@ -5,8 +5,8 @@ namespace WebApplication2.Services.Interfaces
 {
     public interface IPlanEstudioService
     {
-        //Task<PagedResult<PlanEstudios>> GetPlanesEstudios(int page, int pageSize);
-        //Task<PlanEstudios> CrearPlanEstudios(PlanEstudios planEstudios);
-        //Task<PlanEstudios> EliminarPlanEstudios(int id);
+        Task<PagedResult<PlanEstudios>> GetPlanesEstudios(int page, int pageSize, int campusId);
+        Task<PlanEstudios> CrearPlanEstudios(PlanEstudios planEstudios);
+        Task<PlanEstudios> ActualizarPlanEstudios(PlanEstudios newPlanEstudios);
     }
 }

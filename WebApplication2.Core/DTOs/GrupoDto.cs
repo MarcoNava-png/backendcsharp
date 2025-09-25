@@ -1,14 +1,19 @@
-﻿using WebApplication2.Core.Common;
-
-namespace WebApplication2.Core.DTOs
+﻿namespace WebApplication2.Core.DTOs
 {
     public class GrupoDto
     {
-        public int Id { get; set; }
-        public string Clave { get; set; }
-        public int Semestre { get; set; }
-        public int Periodicidad { get; set; }
-        public PlanEstudioDto PlanEstudios { get; set; }
-        public StatusEnum Status { get; set; }
+        public int IdGrupo { get; set; }
+
+        public string PlanEstudios { get; set; }
+
+        public string PeriodoAcademico { get; set; }
+
+        public byte ConsecutivoPeriodicidad { get; set; }
+
+        public byte NumeroGrupo { get; set; }
+
+        public string Turno { get; set; }
+
+        public short CapacidadMaxima { get; set; }
     }
 }

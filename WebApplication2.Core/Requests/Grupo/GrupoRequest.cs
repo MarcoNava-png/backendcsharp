@@ -1,10 +1,20 @@
-﻿namespace WebApplication2.Core.Requests.Grupo
+﻿using WebApplication2.Core.Models;
+
+namespace WebApplication2.Core.Requests.Grupo
 {
     public class GrupoRequest
     {
-        public string Clave { get; set; }
-        public int PlanEstudiosId { get; set; }
-        public int Semestre { get; set; }
-        public int Periodicidad { get; set; }
+
+        public int IdPlanEstudios { get; set; }
+
+        public int IdPeriodoAcademico { get; set; }
+
+        public byte NumeroCuatrimestre { get; set; }
+
+        public byte NumeroGrupo { get; set; }
+
+        public int IdTurno { get; set; }
+
+        public short CapacidadMaxima { get; set; }
     }
 }

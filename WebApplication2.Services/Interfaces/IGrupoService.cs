@@ -5,8 +5,8 @@ namespace WebApplication2.Services.Interfaces
 {
     public interface IGrupoService
     {
-        //Task<PagedResult<Grupo>> GetGrupos(int page, int pageSize);
-        //Task<Grupo> CrearGrupo(Grupo grupo);
-        //Task<Grupo> EliminarGrupo(int id);
+        Task<PagedResult<Grupo>> GetGrupos(int page, int pageSize);
+        Task<Grupo> CrearGrupo(Grupo grupo);
+        Task<Grupo> ActualizarGrupo(Grupo newGrupo);
     }
 }

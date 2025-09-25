@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using WebApplication2.Core.Enums;
 using WebApplication2.Core.Models;
 using WebApplication2.Data.DbContexts;
 
@@ -19,7 +20,7 @@ namespace WebApplication2.Controllers
         [HttpGet("generos")]
         public async Task<ActionResult<IEnumerable<Genero>>> GetGeneros()
         {
-            var generos = await _dbContext.Genero.ToListAsync();
+            var generos = await _dbContext.Genero.AsNoTracking().ToListAsync();
 
             return Ok(generos);
         }
@@ -27,7 +28,7 @@ namespace WebApplication2.Controllers
         [HttpGet("horarios")]
         public async Task<ActionResult<IEnumerable<Horario>>> GetHorarios()
         {
-            var horarios = await _dbContext.Turno.ToListAsync();
+            var horarios = await _dbContext.Turno.AsNoTracking().ToListAsync();
 
             return Ok(horarios);
         }
@@ -35,7 +36,7 @@ namespace WebApplication2.Controllers
         [HttpGet("dias-semana")]
         public async Task<ActionResult<IEnumerable<DiaSemana>>> GetDiasSemana()
         {
-            var diasSemana = await _dbContext.DiaSemana.ToListAsync();
+            var diasSemana = await _dbContext.DiaSemana.AsNoTracking().ToListAsync();
 
             return Ok(diasSemana);
         }
@@ -43,7 +44,7 @@ namespace WebApplication2.Controllers
         [HttpGet("estado-civil")]
         public async Task<ActionResult<IEnumerable<EstadoCivil>>> GetEstadoCivil()
         {
-            var estadoCivil = await _dbContext.EstadoCivil.ToListAsync();
+            var estadoCivil = await _dbContext.EstadoCivil.AsNoTracking().ToListAsync();
 
             return Ok(estadoCivil);
         }
@@ -51,7 +52,10 @@ namespace WebApplication2.Controllers
         [HttpGet("aspirante-status")]
         public async Task<ActionResult<IEnumerable<AspiranteEstatus>>> GetAspiranteStatus()
         {
-            var aspiranteEstatus = await _dbContext.AspiranteEstatus.ToListAsync();
+            var aspiranteEstatus = await _dbContext.AspiranteEstatus
+                .Where(a => a.Status == StatusEnum.Active)
+                .AsNoTracking()
+                .ToListAsync();
 
             return Ok(aspiranteEstatus);
         }
@@ -59,25 +63,50 @@ namespace WebApplication2.Controllers
         [HttpGet("medios-contacto")]
         public async Task<ActionResult<IEnumerable<MedioContacto>>> GetMediosContacto()
         {
-            var mediosContacto = await _dbContext.MedioContacto.ToListAsync();
+            var mediosContacto = await _dbContext.MedioContacto
+                .Where(mc => mc.Status == StatusEnum.Active)
+                .AsNoTracking()
+                .ToListAsync();
 
             return Ok(mediosContacto);
-        }
-
-        [HttpGet("turnos")]
-        public async Task<ActionResult<IEnumerable<Turno>>> GetTurnos()
-        {
-            var turnos = await _dbContext.Turno.ToListAsync();
-
-            return Ok(turnos);
         }
 
         [HttpGet("user-roles")]
         public async Task<ActionResult<IEnumerable<string>>> GetRoles()
         {
-            var roles = await _dbContext.Roles.Select(r => r.Name).ToListAsync();
+            var roles = await _dbContext.Roles.AsNoTracking().Select(r => r.Name).ToListAsync();
 
             return Ok(roles);
+        }
+
+        [HttpGet("niveles-educativos")]
+        public async Task<ActionResult<IEnumerable<NivelEducativo>>> GetNivelesEducativos()
+        {
+            var nivelesEducativos = await _dbContext.NivelEducativo
+                .AsNoTracking()
+                .Where(ne => ne.Activo)
+                .ToListAsync();
+
+            return Ok(nivelesEducativos);
+        }
+
+        [HttpGet("periodicidad")]
+        public async Task<ActionResult<IEnumerable<Periodicidad>>> GetPeriodicidad()
+        {
+            var periodicidades = await _dbContext.Periodicidad.AsNoTracking().ToListAsync();
+
+            return Ok(periodicidades);
+        }
+
+        [HttpGet("campus")]
+        public async Task<ActionResult<IEnumerable<Campus>>> GetCampus()
+        {
+            var campus = await _dbContext.Campus
+                .Where(c => c.Status == StatusEnum.Active)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return Ok(campus);
         }
     }
 }
