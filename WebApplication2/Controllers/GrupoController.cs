@@ -39,6 +39,16 @@ namespace WebApplication2.Controllers
             return Ok(response);
         }
 
+        [HttpGet("{idGrupo}")]
+        public async Task<ActionResult<GrupoDetalleDto>> GetDetalle(int idGrupo)
+        {
+            var grupoDetalle = await _grupoService.GetDetalleGrupo(idGrupo);
+
+            var gruposDetaleDto = _mapper.Map<GrupoDetalleDto>(grupoDetalle);
+
+            return Ok(gruposDetaleDto);
+        }
+
         [HttpPost]
         public async Task<ActionResult<GrupoDto>> Grupo([FromBody] GrupoRequest request)
         {
@@ -51,6 +61,25 @@ namespace WebApplication2.Controllers
                 var grupoDto = _mapper.Map<GrupoDto>(newGrupo);
 
                 return Ok(grupoDto);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost("carga-materias")]
+        public async Task<ActionResult> CargaMateria([FromBody] CargaGrupoMateriasRequest request)
+        {
+            try
+            {
+                var grupoMaterias = _mapper.Map<List<GrupoMateria>>(request.GrupoMaterias);
+
+                grupoMaterias.ForEach(gm => gm.IdGrupo = request.IdGrupo);
+
+                await _grupoService.CargarMateriasGrupo(grupoMaterias);
+
+                return NoContent();
             }
             catch (Exception ex)
             {

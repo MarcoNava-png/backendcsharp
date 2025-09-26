@@ -14,7 +14,7 @@ namespace WebApplication2.Core.Requests.Auth
         public string ApellidoMaterno { get; set; }
 
         [Required]
-        public DateTime FechaNacimiento { get; set; }
+        public DateOnly FechaNacimiento { get; set; }
 
         [Required]
         public int GeneroId { get; set; }
@@ -34,5 +34,7 @@ namespace WebApplication2.Core.Requests.Auth
         public string? NumeroInterior { get; set; }
 
         public int? CodigoPostalId { get; set; }
+
+        public int? IdEstadoCivil { get; set; }
     }
 }

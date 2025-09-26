@@ -2,8 +2,12 @@
 {
     public class ProfesorDto
     {
-        public int Id { get; set; }
-        public string Especialidad { get; set; }
-        public PersonaDto Persona { get; set; }
+        public int IdProfesor { get; set; }
+
+        public string NoEmpleado { get; set; } = null!;
+
+        public string NombreCompleto { get; set; }
+
+        public string? EmailInstitucional { get; set; }
     }
 }

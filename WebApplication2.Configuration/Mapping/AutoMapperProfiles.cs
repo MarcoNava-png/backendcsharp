@@ -24,6 +24,7 @@ namespace WebApplication2.Configuration.Mapping
                 new PlanEstudioProfile(),
                 new InscripcionProfile(),
                 new PeriodoAcademicoProfile(),
+                new GrupoMateriaProfile(),
             };
         }
     }

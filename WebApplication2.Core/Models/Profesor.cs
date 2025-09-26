@@ -16,9 +16,13 @@ public partial class Profesor : BaseEntity
 
     public string? UsuarioId { get; set; }
 
+    public int? CampusId { get; set; }
+
     public virtual ICollection<GrupoMateria> GrupoMateria { get; set; } = new List<GrupoMateria>();
 
     public virtual Persona IdPersonaNavigation { get; set; } = null!;
     
     public virtual IdentityUser Usuario { get; set; }
+
+    public virtual Campus? Campus { get; set; }
 }

@@ -74,7 +74,7 @@ namespace WebApplication2.Services
                 _dbContext.Persona.Update(persona);
             }
 
-            if (newAspirante.IdPersonaNavigation.IdDireccionNavigation != null)
+            if (newAspirante.IdPersonaNavigation != null && newAspirante.IdPersonaNavigation.IdDireccionNavigation != null)
             {
                 var direccion = await _dbContext.Direccion.SingleOrDefaultAsync(d => d.IdDireccion == aspirante.IdPersonaNavigation.IdDireccion);
 

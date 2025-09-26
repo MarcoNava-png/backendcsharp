@@ -42,12 +42,42 @@ namespace WebApplication2.Services
             };
         }
 
+        public async Task<Grupo> GetDetalleGrupo(int idGrupo)
+        {
+            var grupo = await _dbContext.Grupo
+                .Include(g => g.GrupoMateria)
+                .ThenInclude(gm => gm.IdProfesorNavigation)
+                .ThenInclude(pn => pn.IdPersonaNavigation)
+                .Include(g => g.GrupoMateria)
+                .ThenInclude(gm => gm.IdMateriaPlanNavigation)
+                .ThenInclude(mpn => mpn.IdMateriaNavigation)
+                .Include(g => g.IdPeriodoAcademicoNavigation)
+                .Include(g => g.IdPlanEstudiosNavigation)
+                .Include(g => g.IdTurnoNavigation)
+                .FirstOrDefaultAsync(g => g.IdGrupo == idGrupo);
+
+            if (grupo  == null)
+            {
+                throw new Exception("No existe grupo con el id ingresado");
+            }
+
+            return grupo;
+        }
+
         public async Task<Grupo> CrearGrupo(Grupo grupo)
         {
             await _dbContext.Grupo.AddAsync(grupo);
             await _dbContext.SaveChangesAsync();
 
             return grupo;
+        }
+
+        public async Task<IEnumerable<GrupoMateria>> CargarMateriasGrupo(IEnumerable<GrupoMateria> grupoMaterias)
+        {
+            await _dbContext.GrupoMateria.AddRangeAsync(grupoMaterias);
+            await _dbContext.SaveChangesAsync();
+
+            return grupoMaterias;
         }
 
         public async Task<Grupo> ActualizarGrupo(Grupo newGrupo)

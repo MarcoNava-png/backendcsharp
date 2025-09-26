@@ -62,7 +62,7 @@ namespace WebApplication2.Controllers
                     Nombre = request.Nombre,
                     ApellidoPaterno = request.ApellidoPaterno,
                     ApellidoMaterno = request.ApellidoMaterno,
-                    FechaNacimiento = DateOnly.FromDateTime(request.FechaNacimiento),
+                    FechaNacimiento = request.FechaNacimiento,
                     IdGenero = request.GeneroId,
                     Curp = request.CURP,
 
@@ -70,6 +70,7 @@ namespace WebApplication2.Controllers
                     Telefono = request.Telefono,
 
                     IdDireccionNavigation = direccion,
+                    IdEstadoCivil = request.IdEstadoCivil
                 },
                 IdPlan = request.PlanEstudiosId,
                 IdMedioContacto = request.MedioContactoId,
@@ -115,7 +116,7 @@ namespace WebApplication2.Controllers
                     Nombre = request.Nombre,
                     ApellidoPaterno = request.ApellidoPaterno,
                     ApellidoMaterno = request.ApellidoMaterno,
-                    FechaNacimiento = DateOnly.FromDateTime(request.FechaNacimiento),
+                    FechaNacimiento = request.FechaNacimiento,
                     IdGenero = request.GeneroId,
                     Curp = request.CURP,
 
