@@ -15,7 +15,7 @@ namespace WebApplication2.Services
             _dbContext = dbContext;
         }
 
-        public async Task<PagedResult<Aspirante>> GetAspirantes(int page, int pageSize)
+        public async Task<PagedResult<Aspirante>> GetAspirantes(int page, int pageSize, string filter)
         {
             var totalItems = await _dbContext.Aspirante
                 .CountAsync();
@@ -24,6 +24,11 @@ namespace WebApplication2.Services
                 .Include(a => a.IdPersonaNavigation)
                 .Include(a => a.IdPlanNavigation)
                 .Include(a => a.IdAspiranteEstatusNavigation)
+                .Where(a => 
+                    a.IdPersonaNavigation.Nombre.ToLower().Contains(filter.ToLower()) ||
+                    a.IdPersonaNavigation.ApellidoPaterno.ToLower().Contains(filter.ToLower()) ||
+                    a.IdPersonaNavigation.ApellidoMaterno.ToLower().Contains(filter.ToLower()) ||
+                    a.IdPersonaNavigation.Curp.ToLower().Contains(filter.ToLower()))
                 .OrderBy(d => d.IdPersonaNavigation.ApellidoPaterno)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)

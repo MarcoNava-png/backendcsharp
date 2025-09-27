@@ -22,9 +22,9 @@ namespace WebApplication2.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<PagedResult<AspiranteDto>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        public async Task<ActionResult<PagedResult<AspiranteDto>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20, [FromQuery] string filter = "")
         {
-            var pagination = await _aspiranteService.GetAspirantes(page, pageSize);
+            var pagination = await _aspiranteService.GetAspirantes(page, pageSize, filter);
 
             var aspirantesDtos = _mapper.Map<IEnumerable<AspiranteDto>>(pagination.Items);
 

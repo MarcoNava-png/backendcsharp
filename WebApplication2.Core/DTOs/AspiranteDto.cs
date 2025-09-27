@@ -12,6 +12,8 @@ namespace WebApplication2.Core.DTOs
 
         public string Email { get; set; }
 
+        public string Telefono { get; set; }
+
         public string AspiranteEstatus { get; set; }
 
         public DateTime FechaRegistro { get; set; }
