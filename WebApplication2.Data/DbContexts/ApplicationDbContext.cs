@@ -452,6 +452,11 @@ namespace WebApplication2.Data.DbContexts
                 entity.HasOne(d => d.IdGeneroNavigation).WithMany(p => p.Persona)
                     .HasForeignKey(d => d.IdGenero)
                     .HasConstraintName("FK_Persona_Genero");
+
+                entity.HasIndex(p => p.Nombre);
+                entity.HasIndex(p => p.ApellidoPaterno);
+                entity.HasIndex(p => p.ApellidoMaterno);
+                entity.HasIndex(p => p.Curp);
             });
 
             modelBuilder.Entity<PlanEstudios>(entity =>

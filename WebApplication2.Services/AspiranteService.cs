@@ -17,9 +17,6 @@ namespace WebApplication2.Services
 
         public async Task<PagedResult<Aspirante>> GetAspirantes(int page, int pageSize, string filter)
         {
-            var totalItems = await _dbContext.Aspirante
-                .CountAsync();
-
             var aspirantes = await _dbContext.Aspirante
                 .Include(a => a.IdPersonaNavigation)
                 .Include(a => a.IdPlanNavigation)
@@ -36,7 +33,7 @@ namespace WebApplication2.Services
 
             return new PagedResult<Aspirante>
             {
-                TotalItems = totalItems,
+                TotalItems = aspirantes.Count,
                 Items = aspirantes,
                 PageNumber = page,
                 PageSize = pageSize
