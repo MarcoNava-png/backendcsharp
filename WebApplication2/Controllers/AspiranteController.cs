@@ -40,7 +40,7 @@ namespace WebApplication2.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] AspiranteSignupRequest request)
+        public async Task<ActionResult<AspiranteDto>> Post([FromBody] AspiranteSignupRequest request)
         {
             Direccion? direccion = null;
             
@@ -83,6 +83,8 @@ namespace WebApplication2.Controllers
             try
             {
                 var aspirante = await _aspiranteService.CrearAspirante(newAspirante);
+
+                var aspiranteDto = _mapper.Map<AspiranteDto>(aspirante);
 
                 return Ok();
             }
