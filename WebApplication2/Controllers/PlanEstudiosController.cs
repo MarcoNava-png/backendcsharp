@@ -21,10 +21,10 @@ namespace WebApplication2.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("{campusId}")]
-        public async Task<ActionResult<PagedResult<PlanEstudioDto>>> Get(int campusId, [FromQuery] int page = 1, [FromQuery] int pageSize = 20)
+        [HttpGet]
+        public async Task<ActionResult<PagedResult<PlanEstudioDto>>> Get([FromQuery] int page = 1, [FromQuery] int pageSize = 20)
         {
-            var pagination = await _planEstudioService.GetPlanesEstudios(page, pageSize, campusId);
+            var pagination = await _planEstudioService.GetPlanesEstudios(page, pageSize);
 
             var planesEstudiosDto = _mapper.Map<IEnumerable<PlanEstudioDto>>(pagination.Items);
 

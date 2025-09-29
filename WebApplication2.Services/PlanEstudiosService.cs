@@ -15,19 +15,11 @@ namespace WebApplication2.Services
             _dbContext = dbContext;
         }
 
-        public async Task<PagedResult<PlanEstudios>> GetPlanesEstudios(int page, int pageSize, int campusId)
+        public async Task<PagedResult<PlanEstudios>> GetPlanesEstudios(int page, int pageSize)
         {
-            var totalItems = await _dbContext.PlanEstudios
-                .Include(p => p.IdCampusNavigation)
-                .Include(p => p.IdPeriodicidadNavigation)
-                .Where(p => p.IdCampus == campusId)
-                .AsNoTracking()
-                .CountAsync();
-
             var profesores = await _dbContext.PlanEstudios
                 .Include(p => p.IdCampusNavigation)
                 .Include(p => p.IdPeriodicidadNavigation)
-                .Where(p => p.IdCampus == campusId)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .AsNoTracking()
@@ -35,7 +27,7 @@ namespace WebApplication2.Services
 
             return new PagedResult<PlanEstudios>
             {
-                TotalItems = totalItems,
+                TotalItems = profesores.Count,
                 Items = profesores,
                 PageNumber = page,
                 PageSize = pageSize
