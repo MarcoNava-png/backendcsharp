@@ -86,7 +86,7 @@ namespace WebApplication2.Controllers
 
                 var aspiranteDto = _mapper.Map<AspiranteDto>(aspirante);
 
-                return Ok();
+                return Ok(aspiranteDto);
             }
             catch (Exception ex)
             {
