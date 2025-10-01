@@ -21,7 +21,7 @@ namespace WebApplication2.Services
                 .Include(a => a.IdPersonaNavigation)
                 .Include(a => a.IdPlanNavigation)
                 .Include(a => a.IdAspiranteEstatusNavigation)
-                .Where(a => 
+                .Where(a =>
                     a.IdPersonaNavigation.Nombre.ToLower().Contains(filter.ToLower()) ||
                     a.IdPersonaNavigation.ApellidoPaterno.ToLower().Contains(filter.ToLower()) ||
                     a.IdPersonaNavigation.ApellidoMaterno.ToLower().Contains(filter.ToLower()) ||
@@ -40,12 +40,28 @@ namespace WebApplication2.Services
             };
         }
 
-        public async Task<Aspirante> CrearAspirante(Aspirante Aspirante)
+        public async Task<Aspirante> CrearAspirante(Aspirante aspirante)
         {
-            await _dbContext.Aspirante.AddAsync(Aspirante);
+            var curpValida = (await _dbContext.Persona
+                .SingleOrDefaultAsync(p => p.Curp == aspirante.IdPersonaNavigation!.Curp)) == null;
+
+            var correoValido = (await _dbContext.Persona
+                .SingleOrDefaultAsync(p => p.Correo == aspirante.IdPersonaNavigation!.Correo)) == null;
+
+            if (!curpValida)
+            {
+                throw new Exception("Ya existe un aspirante con la curp ingresada.");
+            }
+
+            if (!correoValido)
+            {
+                throw new Exception("Ya existe un aspirante con el correo ingresado.");
+            }
+
+            await _dbContext.Aspirante.AddAsync(aspirante);
             await _dbContext.SaveChangesAsync();
 
-            return Aspirante;
+            return aspirante;
         }
 
         public async Task<Aspirante> ActualizarAspirante(Aspirante newAspirante)
