@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication2.Core.DTOs;
 using WebApplication2.Core.Models;
 using WebApplication2.Core.Requests.Auth;
@@ -34,13 +33,30 @@ namespace WebApplication2
         [HttpPost("create-user")]
         public async Task<IActionResult> CreateUser(CreateUserRequest request)
         {
-            var user = new IdentityUser
+            var user = new ApplicationUser
             {
                 UserName = request.Email,
                 Email = request.Email,
             };
 
             var userLoginInfoDto = await _authService.Signup(user, request.Password, request.Roles);
+
+            return NoContent();
+        }
+
+        [HttpPut("update-profile")]
+        public async Task<IActionResult> UpdateProfile(UpdateUserProfileRequest request)
+        {
+            var newUser = new ApplicationUser
+            {
+                Email = request.Email,
+                Nombres = request.Nombres,
+                Apellidos = request.Apellidos,
+                Telefono = request.Telefono,
+                Biografia = request.Biografia
+            };
+
+            await _authService.UpdateUserProfile(newUser);
 
             return NoContent();
         }

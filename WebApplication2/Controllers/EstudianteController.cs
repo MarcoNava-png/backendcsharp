@@ -56,7 +56,7 @@ namespace WebApplication2.Controllers
         [HttpPost]
         public async Task<ActionResult<EstudianteDto>> Estudiante([FromBody] EstudianteRequest request)
         {
-            var user = new IdentityUser
+            var user = new ApplicationUser
             {
                 UserName = $"{request.Matricula}@uni.mx",
                 Email = $"{request.Matricula}@uni.mx",

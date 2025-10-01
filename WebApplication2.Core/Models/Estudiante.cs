@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace WebApplication2.Core.Models;
+﻿namespace WebApplication2.Core.Models;
 
 public partial class Estudiante : BaseEntity
 {
@@ -28,5 +26,5 @@ public partial class Estudiante : BaseEntity
 
     public virtual ICollection<Inscripcion> Inscripcion { get; set; } = new List<Inscripcion>();
 
-    public virtual IdentityUser Usuario { get; set; }
+    public virtual ApplicationUser Usuario { get; set; }
 }

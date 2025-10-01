@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace WebApplication2.Core.Models
+﻿namespace WebApplication2.Core.Requests.Auth
 {
-    public class ApplicationUser : IdentityUser
+    public class UpdateUserProfileRequest
     {
+        public string Email { get; set; }
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
         public string Telefono { get; set; }

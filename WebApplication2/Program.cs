@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WebApplication2.Configuration.Mapping;
+using WebApplication2.Core.Models;
 using WebApplication2.Data.DbContexts;
 using WebApplication2.Data.Seed;
 using WebApplication2.Services;
@@ -56,7 +57,7 @@ builder.Services.AddCors(o =>
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.Lockout.AllowedForNewUsers = true;
     options.Password.RequiredLength = 7;

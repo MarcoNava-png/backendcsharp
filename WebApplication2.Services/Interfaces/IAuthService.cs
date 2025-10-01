@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
-using WebApplication2.Core.DTOs;
+﻿using WebApplication2.Core.DTOs;
+using WebApplication2.Core.Models;
 
 
 namespace WebApplication2.Services.Interfaces
 {
     public interface IAuthService
     {
-        Task<IdentityUser> Signup(IdentityUser user, string password, List<string> roles);
+        Task<ApplicationUser> Signup(ApplicationUser user, string password, List<string> roles);
         Task<UserLoginInfoDto> Login(string username, string password);
-        Task<IdentityUser> GetUserByEmail(string email);
+        Task<ApplicationUser> GetUserByEmail(string email);
         Task RequestPasswordReset(string email);
         Task ResetPassword(string email, string newPassword, string token);
+        Task UpdateUserProfile(ApplicationUser newUser);
         Task DeleteUser(string email);
     }
 }

@@ -14,11 +14,11 @@ namespace WebApplication2.Services
 {
     public class AuthService : IAuthService
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IConfiguration _configuration;
 
-        public AuthService(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager,
+        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,
             IConfiguration configuration)
         {
             _userManager = userManager;
@@ -26,7 +26,7 @@ namespace WebApplication2.Services
             _configuration = configuration;
         }
 
-        public async Task<IdentityUser> Signup(IdentityUser user, string password, List<string> roles)
+        public async Task<ApplicationUser> Signup(ApplicationUser user, string password, List<string> roles)
         {
             var result = await _userManager.CreateAsync(user, password);
 
@@ -68,7 +68,7 @@ namespace WebApplication2.Services
 
         }
 
-        public async Task<IdentityUser> GetUserByEmail(string email)
+        public async Task<ApplicationUser> GetUserByEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -110,6 +110,18 @@ namespace WebApplication2.Services
             await _userManager.ResetPasswordAsync(user, newPassword, token);
         }
 
+        public async Task UpdateUserProfile(ApplicationUser newUser)
+        {
+            var user = await _userManager.FindByEmailAsync(newUser.Email);
+
+            user.Nombres = newUser.Nombres;
+            user.Apellidos = newUser.Apellidos;
+            user.Telefono = newUser.Telefono;
+            user.Biografia = newUser.Biografia;
+
+            await _userManager.UpdateAsync(user);
+        }
+
         public async Task DeleteUser(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -122,7 +134,7 @@ namespace WebApplication2.Services
             await _userManager.DeleteAsync(user);
         }
 
-        private UserLoginInfoDto GetUserLoginToken(IdentityUser user, string role)
+        private UserLoginInfoDto GetUserLoginToken(ApplicationUser user, string role)
         {
             var claims = new List<Claim>
             {
@@ -139,6 +151,10 @@ namespace WebApplication2.Services
             {
                 UserId = user.Id,
                 Email = user.Email,
+                Nombres = user.Nombres,
+                Apellidos = user.Apellidos,
+                Telefono = user.Telefono,
+                Biografia = user.Biografia,
                 Role = role,
                 Token = token,
                 Expiration = expiration,

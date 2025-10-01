@@ -6,7 +6,7 @@ using WebApplication2.Core.Models;
 
 namespace WebApplication2.Data.DbContexts
 {
-    public class ApplicationDbContext : IdentityDbContext<IdentityUser, IdentityRole, string, IdentityUserClaim<string>,
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole, string, IdentityUserClaim<string>,
         IdentityUserRole<string>, IdentityUserLogin<string>, IdentityRoleClaim<string>, IdentityUserToken<string>>
     {
         private readonly string _currentUserId;

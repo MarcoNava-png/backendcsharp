@@ -22,7 +22,7 @@ public partial class Profesor : BaseEntity
 
     public virtual Persona IdPersonaNavigation { get; set; } = null!;
     
-    public virtual IdentityUser Usuario { get; set; }
+    public virtual ApplicationUser Usuario { get; set; }
 
     public virtual Campus? Campus { get; set; }
 }
